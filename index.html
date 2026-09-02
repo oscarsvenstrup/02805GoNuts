@@ -3,81 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Week 1: Go Nuts with the Marvel social graph." />
-    <title>Week 1 | Go Nuts</title>
+    <meta name="description" content="Go Nuts: a weekly exploration of social graphs and interactions." />
+    <title>Go Nuts | Social Graphs &amp; Interactions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="landing-page">
     <header class="site-header">
-      <div class="brand-lockup">
-        <a class="logo" href="#top" aria-label="Go Nuts home"><span>✳</span> GO NUTS</a>
-        <span class="author">Oscar Svenstrup</span>
-      </div>
-      <nav aria-label="Main navigation">
-        <a href="#investigate">Investigate</a>
-        <a href="https://github.com/oscarsvenstrup/02805GoNuts" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-      </nav>
+      <div class="brand-lockup"><a class="logo" href="index.html" aria-label="Go Nuts home"><span>✳</span> GO NUTS</a><span class="author">Oscar Svenstrup</span></div>
+      <a class="header-link" href="https://github.com/oscarsvenstrup/02805GoNuts" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
     </header>
 
     <main id="top">
-      <section class="week-bar" aria-label="Weekly project pages">
-        <div class="week-heading"><p class="section-label">Project journal</p><span>New work, every week</span></div>
-        <nav class="week-nav" aria-label="Choose a week">
-          <a class="week-link active" href="#week-1" aria-current="page">Week 1</a>
-          <a class="week-link" href="#week-2">Week 2</a>
-          <a class="week-link" href="#week-3">Week 3</a>
-        </nav>
+      <section class="landing-hero" aria-labelledby="landing-title">
+        <p class="section-label">Social Graphs &amp; Interactions · 02805</p>
+        <h1 id="landing-title">Eight weeks.<br /><em>One connected</em><br />story.</h1>
+        <p class="landing-intro">A weekly project journal by Oscar Svenstrup, exploring the patterns hiding inside networks.</p>
       </section>
 
-      <article class="week-post" id="week-1">
-        <header class="post-intro">
-          <p class="section-label">Week 1 / Group exercise 1.8</p>
-          <h1>Go nuts<br /><em>with the graph.</em></h1>
-          <p class="intro">We asked what a network of Marvel characters can reveal when we stop looking at heroes one by one and start following the links between their Wikipedia pages.</p>
-          <div class="post-meta"><span>Data: 303 Marvel characters</span><span>Frozen: 26 August 2026</span></div>
-        </header>
-
-        <section class="findings section-grid" aria-labelledby="findings-title">
-          <p class="section-label">01 / First look</p>
-          <div><h2 id="findings-title">A small world<br /><span>with big hubs.</span></h2><p class="body-copy">Every arrow is a link from one character's Wikipedia article to another. The network is directed, so the character linked to most often is not necessarily the character who links out the most.</p></div>
-          <div class="stat-block"><strong id="node-count">—</strong><span>characters<br />in the snapshot</span></div>
-        </section>
-
-        <section class="stats-strip" aria-label="Network statistics">
-          <div><strong id="edge-count">—</strong><span>directed links</span></div>
-          <div><strong id="isolate-count">—</strong><span>isolates</span></div>
-          <div><strong id="pair-count">—</strong><span>undirected pairs</span></div>
-          <div><strong id="density">—</strong><span>network density</span></div>
-        </section>
-
-        <section class="investigate section-grid" id="investigate" aria-labelledby="investigate-title">
-          <p class="section-label">02 / Investigate</p>
-          <div class="explorer-panel">
-            <h2 id="investigate-title">Pick a<br /><span>character.</span></h2>
-            <p class="body-copy">Search the shared playground and inspect who links to your character and who your character links to.</p>
-            <label class="search-label" for="character-search">Find a node</label>
-            <input id="character-search" type="search" placeholder="Try Spider-Man" autocomplete="off" />
-            <div id="search-results" class="search-results" role="listbox" aria-label="Character search results"></div>
-            <div id="character-card" class="character-card" aria-live="polite"><span class="card-kicker">Selected node</span><h3>Choose a character</h3><p>Its connections will appear here.</p></div>
-          </div>
-          <div class="connection-panel"><div class="connection-group"><div class="connection-heading"><span>Incoming links</span><strong id="incoming-count">—</strong></div><ul id="incoming-list"><li>Choose a character to explore the network.</li></ul></div><div class="connection-group"><div class="connection-heading"><span>Outgoing links</span><strong id="outgoing-count">—</strong></div><ul id="outgoing-list"><li>Choose a character to explore the network.</li></ul></div></div>
-        </section>
-
-        <section class="reflection section-grid" aria-labelledby="reflection-title">
-          <p class="section-label">03 / What surprised us</p>
-          <div><h2 id="reflection-title">Links tell<br /><span>different stories.</span></h2><p class="body-copy">The directed view keeps two stories separate: being mentioned by many pages is different from mentioning many pages. Collapsing the arrows into pairs reduces 1,784 links to 1,434 relationships, because 350 pairs link in both directions.</p><p class="body-copy">The 17 isolates are easy to lose if the graph is built only from the edge list. Keeping the complete node roster makes those quiet characters part of the story.</p></div>
-          <div class="quote">“The layout can move.<br /><span>The data stays.</span>”</div>
-        </section>
-      </article>
-
-      <section class="upcoming-week" id="week-2" aria-labelledby="week-2-title"><p class="section-label">02 / Next entry</p><div><h2 id="week-2-title">Week <span>2</span></h2><p class="body-copy">The next experiment will build on this network.</p></div><span class="coming-soon">Coming soon</span></section>
-      <section class="upcoming-week" id="week-3" aria-labelledby="week-3-title"><p class="section-label">03 / Future entry</p><div><h2 id="week-3-title">Week <span>3</span></h2><p class="body-copy">A new page will land here when the graph grows.</p></div><span class="coming-soon">Coming soon</span></section>
+      <section class="week-index" aria-labelledby="week-index-title">
+        <div class="index-heading"><p class="section-label">Project journal</p><h2 id="week-index-title">Choose<br /><span>a week.</span></h2></div>
+        <div class="week-grid" aria-label="Weekly project pages">
+          <a class="week-card available" href="week1.html"><span class="week-number">01</span><strong>Week 1</strong><span class="week-status">Read the post ↗</span></a>
+          <span class="week-card"><span class="week-number">02</span><strong>Week 2</strong><span class="week-status">Coming soon</span></span>
+          <span class="week-card"><span class="week-number">03</span><strong>Week 3</strong><span class="week-status">Coming soon</span></span>
+          <span class="week-card"><span class="week-number">04</span><strong>Week 4</strong><span class="week-status">Coming soon</span></span>
+          <span class="week-card"><span class="week-number">05</span><strong>Week 5</strong><span class="week-status">Coming soon</span></span>
+          <span class="week-card"><span class="week-number">06</span><strong>Week 6</strong><span class="week-status">Coming soon</span></span>
+          <span class="week-card"><span class="week-number">07</span><strong>Week 7</strong><span class="week-status">Coming soon</span></span>
+          <span class="week-card"><span class="week-number">08</span><strong>Week 8</strong><span class="week-status">Coming soon</span></span>
+        </div>
+      </section>
     </main>
 
     <footer><span>02805 · GO NUTS</span><span>Built by Oscar Svenstrup <span aria-hidden="true">✳</span></span></footer>
-    <script src="script.js"></script>
   </body>
 </html>

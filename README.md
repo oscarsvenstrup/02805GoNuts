@@ -8,7 +8,7 @@ The site is a dependency-free static page. The workflow in `.github/workflows/pa
 
 ## Weekly pages
 
-The page is organized as a project journal. Week 1 contains the current project content, while Week 2 and Week 3 are ready-made placeholders. To add a new weekly page, copy an `upcoming-week` section in `index.html`, give it a new `id` such as `week-4`, and add a matching link in the `week-nav`.
+The landing page in `index.html` lists all eight weeks. Week 1 lives in `week1.html` and contains the current project content. To add a new weekly page, copy `week1.html` to a new file such as `week2.html`, replace the post content, and turn the matching Week 2 card and navigation item into links.
 
 To enable it the first time:
 
