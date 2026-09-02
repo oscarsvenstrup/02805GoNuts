@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Go Nuts: exploring social graphs and interactions." />
+    <title>Go Nuts | Social Graphs & Interactions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="#top" aria-label="Go Nuts home"><span>✳</span> GO NUTS</a>
+      <nav aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#explore">Explore</a>
+        <a href="https://github.com/oscarsvenstrup/02805GoNuts" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse"></span> Social Graphs &amp; Interactions · 02805</p>
+          <h1 id="hero-title">The world is<br /><em>connected.</em></h1>
+          <p class="intro">Go Nuts is a playful study of the links, clusters and unexpected paths that make networks feel alive.</p>
+          <a class="button" href="#explore">Start exploring <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-graphic" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit orbit-three"></div>
+          <div class="node node-center">GO<br />NUTS</div>
+          <div class="node node-a">A</div>
+          <div class="node node-b">B</div>
+          <div class="node node-c">C</div>
+          <div class="node node-d">D</div>
+          <div class="connection connection-a"></div>
+          <div class="connection connection-b"></div>
+          <div class="connection connection-c"></div>
+        </div>
+      </section>
+
+      <section class="ticker" aria-label="Project themes">
+        <span>MAP THE UNKNOWN</span><i>✳</i><span>FIND THE PATTERN</span><i>✳</i><span>FOLLOW THE LINK</span><i>✳</i><span>MAP THE UNKNOWN</span>
+      </section>
+
+      <section class="about section-grid" id="about">
+        <p class="section-label">01 / The idea</p>
+        <div>
+          <h2>Small links.<br /><span>Big picture.</span></h2>
+          <p class="body-copy">A social graph is more than a collection of points. It is the shape created by everything between them. This project looks at how relationships form structure, influence movement and reveal communities.</p>
+        </div>
+        <div class="stat-block"><strong>∞</strong><span>possible<br />connections</span></div>
+      </section>
+
+      <section class="explore section-grid" id="explore">
+        <p class="section-label">02 / Make a connection</p>
+        <div class="explore-panel">
+          <h2>Which node<br /><span>are you?</span></h2>
+          <p>Pick a starting point and see where the network takes you.</p>
+          <div class="node-picker" role="group" aria-label="Choose a node">
+            <button class="pick active" data-node="A" aria-label="Choose node A">A</button>
+            <button class="pick" data-node="B" aria-label="Choose node B">B</button>
+            <button class="pick" data-node="C" aria-label="Choose node C">C</button>
+            <button class="pick" data-node="D" aria-label="Choose node D">D</button>
+          </div>
+          <p class="result" aria-live="polite">Node A is close to 3 other connections.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer><span>02805 · GO NUTS</span><span>Built for curious minds <span aria-hidden="true">✳</span></span></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
