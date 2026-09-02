@@ -143,7 +143,7 @@ async function loadNetwork() {
     incoming.set(nodeId, new Set());
     outgoing.set(nodeId, new Set());
   });
-  const edgeRows = cleanLines(await edgesResponse.text()).slice(1).map((line) => line.split("\t"));
+  const edgeRows = cleanLines(await edgesResponse.text()).map((line) => line.split("\t"));
   const pairs = new Set();
   edgeRows.forEach(([source, target]) => {
     if (!source || !target) return;
