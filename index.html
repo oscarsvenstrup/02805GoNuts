@@ -12,8 +12,12 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="logo" href="#top" aria-label="Go Nuts home"><span>✳</span> GO NUTS</a>
+      <div class="brand-lockup">
+        <a class="logo" href="#top" aria-label="Go Nuts home"><span>✳</span> GO NUTS</a>
+        <span class="author">Oscar Svenstrup</span>
+      </div>
       <nav aria-label="Main navigation">
+        <a href="#weeks">Weeks</a>
         <a href="#about">About</a>
         <a href="#explore">Explore</a>
         <a href="https://github.com/oscarsvenstrup/02805GoNuts" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
@@ -21,6 +25,23 @@
     </header>
 
     <main id="top">
+      <section class="week-bar" id="weeks" aria-label="Weekly project pages">
+        <div class="week-heading">
+          <p class="section-label">Project journal</p>
+          <span>New work, every week</span>
+        </div>
+        <nav class="week-nav" aria-label="Choose a week">
+          <a class="week-link active" href="#week-1" aria-current="page">Week 1</a>
+          <a class="week-link" href="#week-2">Week 2</a>
+          <a class="week-link" href="#week-3">Week 3</a>
+        </nav>
+      </section>
+
+      <section class="week-content" id="week-1" aria-labelledby="week-1-title">
+        <div class="week-title-row">
+          <p class="section-label">01 / Weekly page</p>
+          <h2 id="week-1-title">Week <span>1</span></h2>
+        </div>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow"><span class="pulse"></span> Social Graphs &amp; Interactions · 02805</p>
@@ -69,6 +90,25 @@
           </div>
           <p class="result" aria-live="polite">Node A is close to 3 other connections.</p>
         </div>
+      </section>
+      </section>
+
+      <section class="upcoming-week" id="week-2" aria-labelledby="week-2-title">
+        <p class="section-label">02 / Next entry</p>
+        <div>
+          <h2 id="week-2-title">Week <span>2</span></h2>
+          <p class="body-copy">This space is ready for the next experiment, reflection or graph.</p>
+        </div>
+        <span class="coming-soon">Coming soon</span>
+      </section>
+
+      <section class="upcoming-week" id="week-3" aria-labelledby="week-3-title">
+        <p class="section-label">03 / Future entry</p>
+        <div>
+          <h2 id="week-3-title">Week <span>3</span></h2>
+          <p class="body-copy">Add the next weekly page here as the project grows.</p>
+        </div>
+        <span class="coming-soon">Coming soon</span>
       </section>
     </main>
 
