@@ -13,13 +13,21 @@ const characterCard = document.querySelector("#character-card");
 const graph = document.querySelector("#network-graph");
 const graphFrame = document.querySelector(".network-frame");
 const graphTooltip = document.querySelector("#graph-tooltip");
+const componentGiantPct = document.querySelector("#component-giant-pct");
+const componentSatelliteSize = document.querySelector("#component-satellite-size");
+const topInName = document.querySelector("#top-in-name");
+const topInValue = document.querySelector("#top-in-value");
+const topInValueBig = document.querySelector("#top-in-value-big");
+const topOutName = document.querySelector("#top-out-name");
+const topOutValue = document.querySelector("#top-out-value");
+const degreeTableBody = document.querySelector("#degree-table-body");
 
 const nodes = new Map();
 const incoming = new Map();
 const outgoing = new Map();
 const edgeRefs = [];
 const positions = new Map();
-const cleanLines = (text) => text.split("\n").filter((line) => line.trim() && !line.startsWith("#"));
+const cleanLines = (text) => text.split(/\r\n|\r|\n/).filter((line) => line.trim() && !line.startsWith("#"));
 const svgElement = (tag, attributes) => {
   const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
   Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
@@ -97,6 +105,47 @@ function showMatches(query) {
   });
 }
 
+function computeComponents(nodeIds) {
+  const visited = new Set();
+  const sizes = [];
+  nodeIds.forEach((start) => {
+    if (visited.has(start)) return;
+    let size = 0;
+    const queue = [start];
+    visited.add(start);
+    while (queue.length) {
+      const current = queue.pop();
+      size += 1;
+      const neighbors = new Set([...(incoming.get(current) || []), ...(outgoing.get(current) || [])]);
+      neighbors.forEach((neighbor) => {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push(neighbor);
+        }
+      });
+    }
+    sizes.push(size);
+  });
+  return sizes.sort((a, b) => b - a);
+}
+
+function renderDegreeTable(nodeIds) {
+  const byIn = [...nodeIds].sort((a, b) => incoming.get(b).size - incoming.get(a).size).slice(0, 5);
+  const byOut = [...nodeIds].sort((a, b) => outgoing.get(b).size - outgoing.get(a).size).slice(0, 5);
+  degreeTableBody.replaceChildren();
+  byIn.forEach((inNodeId, index) => {
+    const outNodeId = byOut[index];
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${index + 1}</td><td>${displayName(inNodeId)}</td><td>${incoming.get(inNodeId).size}</td><td>${displayName(outNodeId)}</td><td>${outgoing.get(outNodeId).size}</td>`;
+    degreeTableBody.append(row);
+  });
+  topInName.textContent = displayName(byIn[0]);
+  topInValue.textContent = incoming.get(byIn[0]).size;
+  if (topInValueBig) topInValueBig.textContent = incoming.get(byIn[0]).size;
+  topOutName.textContent = displayName(byOut[0]);
+  topOutValue.textContent = outgoing.get(byOut[0]).size;
+}
+
 function renderGraph(edgeRows) {
   const graphWidth = 1000;
   const graphHeight = 600;
@@ -104,12 +153,15 @@ function renderGraph(edgeRows) {
   const centerY = graphHeight / 2;
   const radiusX = 445;
   const radiusY = 255;
+  const minRadiusScale = 0.16;
   const nodeIds = [...nodes.keys()];
   const degrees = new Map(nodeIds.map((nodeId) => [nodeId, incoming.get(nodeId).size + outgoing.get(nodeId).size]));
   const maxDegree = Math.max(...degrees.values());
   nodeIds.forEach((nodeId, index) => {
     const angle = (index / nodeIds.length) * Math.PI * 2 - Math.PI / 2;
-    positions.set(nodeId, { x: centerX + Math.cos(angle) * radiusX, y: centerY + Math.sin(angle) * radiusY });
+    const closeness = maxDegree ? degrees.get(nodeId) / maxDegree : 0;
+    const radiusScale = 1 - closeness * (1 - minRadiusScale);
+    positions.set(nodeId, { x: centerX + Math.cos(angle) * radiusX * radiusScale, y: centerY + Math.sin(angle) * radiusY * radiusScale });
   });
   const defs = svgElement("defs", {});
   const marker = svgElement("marker", { id: "arrow", markerWidth: "5", markerHeight: "5", refX: "5", refY: "2.5", orient: "auto" });
@@ -151,14 +203,25 @@ async function loadNetwork() {
     incoming.get(target)?.add(source);
     pairs.add([source, target].sort().join("\0"));
   });
-  const isolates = [...nodes.keys()].filter((nodeId) => !incoming.get(nodeId).size && !outgoing.get(nodeId).size).length;
+  const nodeIds = [...nodes.keys()];
+  const isolates = nodeIds.filter((nodeId) => !incoming.get(nodeId).size && !outgoing.get(nodeId).size).length;
   nodeCount.textContent = nodes.size;
   edgeCount.textContent = edgeRows.length.toLocaleString();
   isolateCount.textContent = isolates;
   pairCount.textContent = pairs.size.toLocaleString();
   density.textContent = `${(pairs.size / (nodes.size * (nodes.size - 1) / 2) * 100).toFixed(1)}%`;
+
+  const componentSizes = computeComponents(nodeIds);
+  if (componentGiantPct && componentSizes.length) {
+    componentGiantPct.textContent = `${Math.round((componentSizes[0] / nodes.size) * 100)}%`;
+  }
+  if (componentSatelliteSize && componentSizes.length > 1) {
+    componentSatelliteSize.textContent = componentSizes[1];
+  }
+  renderDegreeTable(nodeIds);
+
   renderGraph(edgeRows);
-  selectCharacter([...nodes.keys()].find((nodeId) => displayName(nodeId).toLowerCase().includes("spider-man")) || [...nodes.keys()][0]);
+  selectCharacter(nodeIds.find((nodeId) => displayName(nodeId).toLowerCase().includes("spider-man")) || nodeIds[0]);
 }
 
 searchInput.addEventListener("input", () => showMatches(searchInput.value.trim()));

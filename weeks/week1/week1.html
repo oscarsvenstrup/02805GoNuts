@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Week 1: Go Nuts with the Marvel social graph." />
-    <title>Week 1 | Go Nuts</title>
+    <meta name="description" content="Week 1: how in-links and out-links tell opposite stories in the Marvel Wikipedia network." />
+    <title>Fame vs. Cataloging | Go Nuts</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -14,7 +14,7 @@
     <header class="site-header">
       <div class="brand-lockup">
         <a class="logo" href="../../index.html" aria-label="Go Nuts home"><span>✳</span> GO NUTS</a>
-        <span class="author">Oscar Svenstrup</span>
+        <span class="author">Perin · Svenstrup · Cabré</span>
       </div>
       <nav aria-label="Main navigation">
         <a href="#investigate">Investigate</a>
@@ -34,14 +34,17 @@
       <article class="week-post" id="week-1">
         <header class="post-intro">
           <p class="section-label">Week 1 / Group exercise 1.8</p>
-          <h1>Go nuts<br /><em>with the graph.</em></h1>
-          <p class="intro">We asked what a network of Marvel characters can reveal when we stop looking at heroes one by one and start following the links between their Wikipedia pages.</p>
-          <div class="post-meta"><span>Data: 303 Marvel characters</span><span>Frozen: 26 August 2026</span></div>
+          <h1>Fame vs. cataloging:<br /><em>the structural asymmetry</em><br />of the Marvel universe.</h1>
+          <p class="intro">A directed link means two different things depending on which end you stand on. We split a Wikipedia hyperlink graph of 303 Marvel characters into who receives attention and who gives it, and asked what changes when you stop averaging the two together.</p>
+          <div class="post-meta"><span>Data: 303 Marvel characters</span><span>Frozen: 26 August 2026</span><span>By Oscar Svenstrup, Alessandro Perin &amp; Victor Cabré</span></div>
         </header>
 
-        <section class="findings section-grid" aria-labelledby="findings-title">
-          <p class="section-label">01 / First look</p>
-          <div><h2 id="findings-title">A small world<br /><span>with big hubs.</span></h2><p class="body-copy">Every arrow is a link from one character's Wikipedia article to another. The network is directed, so the character linked to most often is not necessarily the character who links out the most.</p></div>
+        <section class="section-grid" aria-labelledby="ask-title">
+          <p class="section-label">01 / What we asked</p>
+          <div>
+            <h2 id="ask-title">One link,<br /><span>two meanings.</span></h2>
+            <p class="body-copy">Every arrow in this graph is a Wikipedia link from one character's article to another. An in-link is an endorsement decided somewhere else, by an editor writing a different page; an out-link is a citation decided here, by whoever wrote this page. Our question: how does passive prominence — the fame of being linked to — differ in structure and scale from the active, effortful work of authoring the links out?</p>
+          </div>
           <div class="stat-block"><strong id="node-count">—</strong><span>characters<br />in the snapshot</span></div>
         </section>
 
@@ -52,13 +55,23 @@
           <div><strong id="density">—</strong><span>network density</span></div>
         </section>
 
+        <section class="section-grid" aria-labelledby="method-title">
+          <p class="section-label">02 / What we did</p>
+          <div>
+            <h2 id="method-title">Freeze the wiki.<br /><span>Keep every node.</span></h2>
+            <p class="body-copy">We loaded a frozen snapshot of Wikipedia's <em>Category:Marvel Comics superheroes</em> and every link between those 303 articles. The edge list alone only knows about characters that appear in a link, so we add all 303 nodes first and the edges second — the 17 characters with no link in either direction stay on the roster instead of quietly disappearing.</p>
+          </div>
+          <div class="stat-block"><strong id="component-giant-pct">—</strong><span>of characters share<br />one giant component</span></div>
+        </section>
+
         <section class="network-section" aria-labelledby="network-title">
-          <div class="network-heading"><p class="section-label">02 / See the network</p><div><h2 id="network-title">Every link<br /><span>has a story.</span></h2><p class="body-copy">Click any node to reveal the character and highlight its immediate connections. The arrows show the direction of each Wikipedia link.</p></div></div>
+          <div class="network-heading"><p class="section-label">03 / See the network</p><div><h2 id="network-title">Every link<br /><span>has a story.</span></h2><p class="body-copy">Click any node to inspect the character and highlight its immediate connections; arrows show the direction of each Wikipedia link. Hub characters are pulled toward the center, quieter ones toward the rim.</p></div></div>
           <div class="network-frame"><svg id="network-graph" viewBox="0 0 1000 600" role="img" aria-label="Interactive network of Marvel characters"></svg><div id="graph-tooltip" class="graph-tooltip" hidden></div></div>
+          <p class="graph-caption">High in-degree hubs — Spider-Man, Hulk, Wolverine — sit near the center of the frame. The 9-character satellite island and the 17 isolates drift toward the outer ring, cut off from the giant component. Search below to jump straight to a character.</p>
         </section>
 
         <section class="investigate section-grid" id="investigate" aria-labelledby="investigate-title">
-          <p class="section-label">02 / Investigate</p>
+          <p class="section-label">04 / Investigate</p>
           <div class="explorer-panel">
             <h2 id="investigate-title">Pick a<br /><span>character.</span></h2>
             <p class="body-copy">Search the shared playground and inspect who links to your character and who your character links to.</p>
@@ -70,16 +83,45 @@
           <div class="connection-panel"><div class="connection-group"><div class="connection-heading"><span>Incoming links</span><strong id="incoming-count">—</strong></div><ul id="incoming-list"><li>Choose a character to explore the network.</li></ul></div><div class="connection-group"><div class="connection-heading"><span>Outgoing links</span><strong id="outgoing-count">—</strong></div><ul id="outgoing-list"><li>Choose a character to explore the network.</li></ul></div></div>
         </section>
 
-        <section class="reflection section-grid" aria-labelledby="reflection-title">
-          <p class="section-label">03 / What surprised us</p>
-          <div><h2 id="reflection-title">Links tell<br /><span>different stories.</span></h2><p class="body-copy">The directed view keeps two stories separate: being mentioned by many pages is different from mentioning many pages. Collapsing the arrows into pairs reduces 1,784 links to 1,434 relationships, because 350 pairs link in both directions.</p><p class="body-copy">The 17 isolates are easy to lose if the graph is built only from the edge list. Keeping the complete node roster makes those quiet characters part of the story.</p></div>
-          <div class="quote">“The layout can move.<br /><span>The data stays.</span>”</div>
+        <section class="divergence section-grid" aria-labelledby="divergence-title">
+          <p class="section-label">05 / In-links vs. out-links</p>
+          <div>
+            <h2 id="divergence-title">Fame is a lottery.<br /><span>Editing is a chore.</span></h2>
+            <p class="body-copy">In-degree is heavy-tailed: a small number of characters are linked to from hundreds of separate articles, each link decided independently by a different editor. <strong id="top-in-name">Spider-Man</strong> tops the list with <strong id="top-in-value">106</strong> in-links. Out-degree tells the opposite story — it is bounded by how many peers one person can reasonably cite while writing a single page. The busiest author, <strong id="top-out-name">Betsy Braddock</strong>, links out to only <strong id="top-out-value">28</strong> other characters, close to the practical ceiling for one article.</p>
+          </div>
+          <div class="stat-block"><strong id="top-in-value-big">106</strong><span>peak in-degree,<br />vs. 28 peak out-degree</span></div>
+        </section>
+
+        <section class="degree-table-section" aria-label="Top five characters by in-degree and out-degree">
+          <table class="degree-table">
+            <thead>
+              <tr><th scope="col">Rank</th><th scope="col">Top in-degree</th><th scope="col">k<sub>in</sub></th><th scope="col">Top out-degree</th><th scope="col">k<sub>out</sub></th></tr>
+            </thead>
+            <tbody id="degree-table-body">
+              <tr><td>—</td><td>Loading…</td><td>—</td><td>Loading…</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="satellites section-grid" aria-labelledby="satellites-title">
+          <p class="section-label">06 / The satellites</p>
+          <div>
+            <h2 id="satellites-title">Not every path<br /><span>leads to Spider-Man.</span></h2>
+            <p class="body-copy">277 characters (91% of the cast) sit in one giant connected component — ignore the arrows and you can walk from any of them to any other. But 9 characters form a separate island with no path at all to the rest of the universe, and 17 more have no links in either direction. The edge list alone would erase all of them; loading the full node roster first is what keeps them part of the story.</p>
+          </div>
+          <div class="stat-block"><strong id="component-satellite-size">9</strong><span>characters form<br />a separate island</span></div>
+        </section>
+
+        <section class="reflection section-grid" aria-labelledby="conclusion-title">
+          <p class="section-label">07 / Conclusion</p>
+          <div><h2 id="conclusion-title">Split the arrows.<br /><span>See both stories.</span></h2><p class="body-copy">A directed network hides its most interesting behavior if you collapse it too early. Averaging in- and out-degree together would have buried a real structural asymmetry: being noticed scales with how many independent editors exist, while noticing is capped by what a single editor can write in one sitting. The topology is a fingerprint of that constraint — and keeping the full node roster, isolates and satellite island included, is what let us see it.</p></div>
+          <div class="quote">“In-links are given.<br /><span>Out-links are made.</span>”</div>
         </section>
       </article>
 
     </main>
 
-    <footer><span>02805 · GO NUTS</span><span>Built by Oscar Svenstrup <span aria-hidden="true">✳</span></span></footer>
-    <script src="script.js?v=2"></script>
+    <footer><span>02805 · GO NUTS</span><span>Built by Oscar Svenstrup, Alessandro Perin &amp; Victor Cabré <span aria-hidden="true">✳</span></span></footer>
+    <script src="script.js?v=3"></script>
   </body>
 </html>
