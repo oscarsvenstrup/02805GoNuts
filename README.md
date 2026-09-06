@@ -8,7 +8,7 @@ The site is a dependency-free static page. The workflow in `.github/workflows/pa
 
 ## Weekly pages
 
-The landing page in `index.html` lists all eight weeks. Week 1 lives in `week1.html` and contains the current project content. To add a new weekly page, copy `week1.html` to a new file such as `week2.html`, replace the post content, and turn the matching Week 2 card and navigation item into links.
+The landing page in `index.html` lists all eight weeks. Week 1 lives in `weeks/week1/week1.html` (with `script.js` and `styles.css` alongside it) and contains the current project content. Its data files live in `data/week1/`. To add a new weekly page, copy `weeks/week1/` to a new folder such as `weeks/week2/`, replace the post content, add matching data under `data/week2/`, and turn the matching Week 2 card and navigation item into links.
 
 To enable it the first time:
 

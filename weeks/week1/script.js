@@ -135,7 +135,7 @@ function renderGraph(edgeRows) {
 }
 
 async function loadNetwork() {
-  const [nodesResponse, edgesResponse] = await Promise.all([fetch("week1_nodes.tsv"), fetch("week1_edges.tsv")]);
+  const [nodesResponse, edgesResponse] = await Promise.all([fetch("../../data/week1/week1_nodes.tsv"), fetch("../../data/week1/week1_edges.tsv")]);
   const nodeRows = cleanLines(await nodesResponse.text()).slice(1);
   nodeRows.forEach((line) => {
     const [nodeId, name, wikidataId, url, ...description] = line.split("\t");
