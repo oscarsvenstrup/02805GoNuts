@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Does Marvel's clustering survive a shuffle that keeps every hero's degree? 630 simulated networks reveal why the choice of null model matters." />
+  <title>Week 2 · Hubs survive. Clustering falls. | Go Nuts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../week1/styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#question">Skip to the analysis</a>
+  <header class="site-header">
+    <div class="brand-lockup"><a class="logo" href="../../index.html"><span>✳</span> GO NUTS</a><span class="author">Perin · Svenstrup · Cabré</span></div>
+    <a class="header-link" href="https://github.com/oscarsvenstrup/02805GoNuts">GitHub ↗</a>
+  </header>
+  <main>
+    <div class="week-bar">
+      <div class="week-heading"><p class="section-label">Week 02</p><span>Models &amp; null models</span></div>
+      <nav class="week-nav" aria-label="Weekly posts"><a class="week-link" href="../../index.html">All weeks</a><a class="week-link" href="../week1/week1.html">Week 1</a><a class="week-link active" href="week2.html" aria-current="page">Week 2</a></nav>
+    </div>
+    <section class="post-intro" aria-labelledby="title">
+      <p class="section-label">Group exercise 2.11 · Marvel under a shuffle</p>
+      <h1 id="title">Hubs survive.<br /><em>Clustering falls.</em></h1>
+      <p class="intro">Marvel's neighbours are unusually well connected to each other. Is that just what happens when a network has a few enormous hubs? Keeping every character's number of connections says: no, not in these shuffles.</p>
+      <div class="post-meta"><span>Frozen course snapshot · 26 August 2026</span><span>630 simulated networks</span></div>
+    </section>
+    <div class="stats-strip" aria-label="Main results">
+      <div><strong>277</strong><span>Characters in the giant component</span></div>
+      <div><strong>1,421</strong><span>Undirected links</span></div>
+      <div><strong>0.320</strong><span>Real clustering</span></div>
+      <div><strong>0.156</strong><span>Degree-preserving shuffle mean</span></div>
+    </div>
+
+    <section class="story-section" id="question">
+      <div><p class="section-label">01 · The question</p><h2>Is it just<br />the hubs?</h2></div>
+      <div class="prose">
+        <p>A character's number of neighbours is its <strong>degree</strong>. A hub has many neighbours. But a hub by itself does not guarantee that those neighbours link to each other: a star has a highly connected centre and no triangles at all.</p>
+        <p>We ask whether Marvel has more neighbour-to-neighbour connections than we would expect <em>even after keeping every character's degree fixed</em>. This is a question about the arrangement of links, not just how many links each character has.</p>
+        <h3>What exactly are we measuring?</h3>
+        <p>For each character, count the links between its neighbours and divide by the number that could exist. This fraction is its <strong>local clustering coefficient</strong>. With four neighbours, six neighbour-pairs are possible; if three pairs are linked, the coefficient is 3/6 = 0.5.</p>
+        <p>Our statistic, <strong>C</strong>, is the average of that fraction across all 277 characters. Characters with fewer than two neighbours contribute zero. Every character gets equal weight; this is not the same as pooling all neighbour-pairs across the network, which gives more weight to hubs.</p>
+        <p class="formula">C = average of [links between neighbours ÷ possible neighbour-pairs]</p>
+      </div>
+    </section>
+
+    <section class="story-section tinted" id="method">
+      <div><p class="section-label">02 · A fair comparison</p><h2>Choose what<br />stays fixed.</h2></div>
+      <div class="prose">
+        <p>A random comparison network is a <strong>null model</strong>: it asks what could happen without a particular kind of structure. Different rules answer different questions. We generated 200 networks under each of these three rules.</p>
+        <ol class="model-list">
+          <li><strong>Random links — keep only size.</strong> Choose exactly 1,421 distinct links at random among the same 277 nodes, using G(n, m). This keeps network size and density, but not individual degrees. It is the fixed-edge-count random-graph baseline.</li>
+          <li><strong>Edge swaps — keep every degree.</strong> Replace two links A–B and C–D with A–C and B–D, accepting only valid swaps without self-links or duplicate links. Each node keeps its number of neighbours, while who connects to whom changes. This is our main comparison.</li>
+          <li><strong>Configuration model, then simplify — a cautionary comparison.</strong> Give each node one loose end for each required link and pair the ends randomly. Initially, this preserves degrees but can create self-links and multiple links between a pair. We remove self-links and merge duplicates to match the real graph's simple form. That cleanup no longer preserves degrees.</li>
+        </ol>
+        <details>
+          <summary>Data scope and simulation settings</summary>
+          <p>We use the unchanged <a href="https://sunelehmann.com/socialgraphs2026-web/data/">course Week 1 snapshot</a>: 303 Wikipedia articles and 1,784 directed links. We load the full roster first, including 17 isolated characters. A link in either direction becomes one undirected link, giving 1,434 links in total.</p>
+          <p>We then select the largest connected group (<strong>giant component</strong>) once: 277 nodes and 1,421 links. The other 26 characters are outside the scope of this analysis, not accidentally lost while loading. All null networks retain these same 277 nodes, including any that become isolated; we do not extract a new giant component after shuffling or force the null networks to stay connected.</p>
+          <p>Each main shuffle starts from the real graph and performs 14,210 successful swaps (10 times its link count), with its own seed. We also run 30 longer shuffles with 71,050 successful swaps each. The master seed is 280502. Every per-run seed and result is saved.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="results-section" id="results">
+      <p class="section-label">03 · The results</p>
+      <h2>The real network<br />stands apart.</h2>
+      <figure>
+        <a href="clustering_nulls.png"><img src="clustering_nulls.png" width="1980" height="954" alt="Histogram of 200 networks per model. Random-link clustering is centred near 0.037, simplified configuration near 0.111, and degree-preserving swaps near 0.156. Real Marvel is marked at 0.320, beyond every simulated value." /></a>
+        <figcaption><strong>How to read this distribution chart.</strong> The horizontal position is a network's average clustering. Bar height counts how many simulated networks fell in that interval, not how many characters have that value. Each colour totals 200 networks and uses the same bin widths. The black line is the real network. The spread shows variation between random runs; the distance to the black line shows how unlike that baseline Marvel is.</figcaption>
+      </figure>
+      <div class="table-scroll" role="region" aria-label="Clustering results" tabindex="0">
+        <table>
+          <caption>Average local clustering across the simulated networks</caption>
+          <thead><tr><th scope="col">Network / model</th><th scope="col">Runs</th><th scope="col">Mean C</th><th scope="col">Standard deviation</th><th scope="col">At least as high as real</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Real Marvel</th><td>1</td><td>0.31995</td><td>—</td><td>—</td></tr>
+            <tr><th scope="row">Random links</th><td>200</td><td>0.03711</td><td>0.00314</td><td>0 / 200</td></tr>
+            <tr class="main-result"><th scope="row">Degree-preserving swaps</th><td>200</td><td>0.15580</td><td>0.00929</td><td>0 / 200</td></tr>
+            <tr><th scope="row">Simplified configuration</th><td>200</td><td>0.11070</td><td>0.00853</td><td>0 / 200</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="result-copy">
+        <p><strong>The main result:</strong> real clustering is about 2.05 times the degree-preserving mean, a difference of 0.16415. Preserving the degrees gives a much higher baseline than random links, but it still does not reproduce the real value. There is additional triangle-related structure in how these Wikipedia articles connect.</p>
+        <p>The real value is 17.68 simulated standard deviations above the degree-preserving mean (<strong>z-score</strong>). That describes the distance; we do not turn it into a tiny normal-distribution tail probability. Our preselected one-sided question is whether real C is higher. None of 200 shuffles reaches it, so the corrected simulation-based (<strong>empirical</strong>) p-value is (0 + 1)/(200 + 1) = <strong>0.00498</strong>, not zero. This is the smallest value this number of simulations can report, not the probability that the null model is true.</p>
+        <p>The longer-shuffle check gives C = 0.15351 with standard deviation 0.00910 across 30 runs. It supports the same qualitative conclusion. It is a sensitivity check, not proof that the swap process has fully explored every eligible network; the shuffle-based inference remains conditional on adequate randomisation.</p>
+      </div>
+    </section>
+
+    <section class="story-section surprise" id="surprise">
+      <div><p class="section-label">04 · The surprise</p><h2>A cleanup<br />changes the test.</h2></div>
+      <div class="prose">
+        <p>The simplified configuration model looked like a second degree-preserving comparison. It was not. Cleanup removed an average of <strong>103.35 links per network</strong> — 7.27% of the real link count. The node that had 106 neighbours in the real graph had only <strong>76.83 on average</strong> afterwards.</p>
+        <p>This is why checking what a model actually preserves matters. Calling this cleaned-up model “same degrees” would be wrong. Its average clustering of 0.11070 is lower than the swap baseline's 0.15580, making the apparent excess look larger.</p>
+        <div class="comparison" id="comparison" hidden>
+          <p class="section-label">Inspect a baseline</p>
+          <div class="comparison-buttons" role="group" aria-label="Choose a null model">
+            <button type="button" data-model="random" aria-pressed="false">Random links</button>
+            <button type="button" data-model="swapped" aria-pressed="true">Edge swaps</button>
+            <button type="button" data-model="configuration" aria-pressed="false">Configuration</button>
+          </div>
+          <div aria-live="polite" aria-atomic="true">
+            <p id="comparison-rule"></p>
+            <dl class="comparison-stats"><div><dt>Mean clustering</dt><dd id="comparison-clustering"></dd></div><div><dt>Mean links lost</dt><dd id="comparison-loss"></dd></div><div><dt>Original hub's mean degree</dt><dd id="comparison-hub"></dd></div></dl>
+          </div>
+          <p class="small-copy">These controls show the saved simulation results; they do not generate new networks.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="story-section" id="limits">
+      <div><p class="section-label">05 · What it means</p><h2>More than<br />popularity.</h2></div>
+      <div class="prose">
+        <p><strong>What survives:</strong> every character's degree, including the biggest hub's 106 neighbours, survives the edge swaps exactly. <strong>What falls:</strong> the tendency for those neighbours to link to each other. Degree alone is therefore not a sufficient account of the clustering observed in this snapshot under our chosen shuffle model.</p>
+        <p>It is tempting to say that teams, shared storylines, or editorial conventions create the extra triangles. Those are plausible explanations, not findings of this test. A Wikipedia hyperlink is not evidence of friendship or even a comic-book interaction. We have discarded link direction, analysed one component and one snapshot, and have not identified communities or tested a mechanism that generates them.</p>
+        <p>Nor can we assign a causal percentage of clustering to “the hubs” by subtracting these baselines. Changing the randomisation rules changes several structural features together.</p>
+        <p><strong>What we would try next:</strong> identify the most triangle-rich neighbourhoods and inspect the linked articles. Then test whether a model that also preserves independently defined team memberships gets closer to the observed clustering.</p>
+      </div>
+    </section>
+
+    <section class="story-section tinted" id="reproduce">
+      <div><p class="section-label">06 · Open the workings</p><h2>Rerun it.<br />Question it.</h2></div>
+      <div class="prose">
+        <p>The numbers and chart were computed for this post, not copied from the course's reference answers. The notebook reruns the same analysis and contains saved outputs. The script checks the input counts and confirms that every edge-swap network preserves every degree.</p>
+        <ul class="resource-list">
+          <li><a href="https://github.com/oscarsvenstrup/02805GoNuts/blob/main/weeks/week2/week2_analysis.ipynb">Read the executed notebook on GitHub</a> · <a href="week2_analysis.ipynb" download>download notebook</a></li>
+          <li><a href="../../scripts/analyze_week2.py">Analysis script</a> · <a href="../../requirements-week2.txt">pinned dependencies</a></li>
+          <li><a href="../../data/week2/samples.csv">All 630 simulation runs (CSV)</a> · <a href="../../data/week2/results.json">Summary, versions and input hashes (JSON)</a></li>
+          <li><a href="../../data/week1/week1_nodes.tsv">Original node roster</a> · <a href="../../data/week1/week1_edges.tsv">original directed links</a></li>
+        </ul>
+        <p>Reference: Sune Lehmann's <a href="https://sunelehmann.com/socialgraphs2026-web/weeks/week2.html#go-nuts">2026 Week 2, exercise 2.11</a>, and its <a href="https://sunelehmann.com/socialgraphs2026-web/weeks/week2.html#shuffling-the-model-becomes-a-test">section on shuffle tests</a>. Implementation: NetworkX <a href="https://networkx.org/documentation/stable/reference/generated/networkx.algorithms.swap.double_edge_swap.html">edge swaps</a> and <a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.degree_seq.configuration_model.html">configuration model</a>.</p>
+        <p class="small-copy">AI assistance: Codex helped formulate the analysis, write and run the code, and draft this post. The frozen inputs, per-run results and executable methods are published so the claims can be checked.</p>
+      </div>
+    </section>
+  </main>
+  <footer><span>02805 · GO NUTS</span><a href="../../index.html">Back to all weeks ↑</a></footer>
+</body>
+</html>
