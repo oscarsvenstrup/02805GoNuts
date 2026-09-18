@@ -73,8 +73,45 @@
       <p class="path-result" id="path-result" aria-live="polite">Select two characters to find their shortest path.</p>
     </section>
 
+    <section class="story-section" id="removal">
+      <div><p class="section-label">03 · Remove the brokers</p><h2>Spider-Man holds<br />the giant together.</h2></div>
+      <div class="prose">
+        <p>We removed every character once from the 277-node giant component and measured the size of the largest connected component that remained. Removing Spider-Man leaves 271 nodes in the giant component: the largest single drop, losing six nodes from the original giant.</p>
+        <p>Spider-Man is also the highest-betweenness character in the real network. Here, the two answers agree: the character whose shortest-path position is most central is also the one whose removal fragments the network most in this single-node test.</p>
+        <figure><img src="removal_fragments.png" width="1980" height="990" alt="Line chart showing the largest connected component as characters are removed in descending degree, betweenness, and random order. Betweenness removal shrinks the giant component fastest." /><figcaption>Each curve removes characters one by one in the order named. This is a targeted attack curve, not a causal intervention or a claim that the null model is connected after every removal.</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="story-section tinted" id="direction">
+      <div><p class="section-label">04 · Direction matters</p><h2>Some pages<br />speak into silence.</h2></div>
+      <div class="prose">
+        <p>When we keep the arrows, in-degree measures how often a character is mentioned and out-degree measures how many other characters that page mentions. The rankings can disagree sharply.</p>
+        <p><strong>Shamrock</strong> is the clearest out-linking outlier: 8 out-links but 0 in-links, ranking 88th by out-degree and 290th by in-degree. <strong>Isaiah Bradley</strong> has the same pattern at 7 out-links and 0 in-links. These are pages that point into the shared universe without being pointed back to in this snapshot.</p>
+        <div class="table-scroll"><table><caption>Largest in/out ranking gaps</caption><thead><tr><th scope="col">Character</th><th scope="col">In</th><th scope="col">Out</th><th scope="col">In rank</th><th scope="col">Out rank</th></tr></thead><tbody><tr class="main-result"><th scope="row"><a href="https://en.wikipedia.org/wiki/Shamrock_(comics)">Shamrock ↗</a></th><td>0</td><td>8</td><td>290</td><td>88</td></tr><tr><th scope="row"><a href="https://en.wikipedia.org/wiki/Solo_(Marvel_Comics)">Solo ↗</a></th><td>1</td><td>12</td><td>239</td><td>42</td></tr><tr><th scope="row"><a href="https://en.wikipedia.org/wiki/Isaiah_Bradley">Isaiah Bradley ↗</a></th><td>0</td><td>7</td><td>275</td><td>99</td></tr><tr><th scope="row"><a href="https://en.wikipedia.org/wiki/Spider-Bitch">Spider-Bitch ↗</a></th><td>2</td><td>15</td><td>194</td><td>21</td></tr><tr><th scope="row"><a href="https://en.wikipedia.org/wiki/Captain_Britain">Brian Braddock ↗</a></th><td>1</td><td>11</td><td>211</td><td>46</td></tr></tbody></table></div>
+        <p class="small-copy">The linked pages give the editorial context for these asymmetries. The graph claim remains narrower: in this snapshot, these pages link outward much more than other pages link inward to them.</p>
+      </div>
+    </section>
+
+    <section class="story-section" id="spider-man">
+      <div><p class="section-label">05 · Six degrees</p><h2>Everyone comes<br />back to Spidey.</h2></div>
+      <div class="prose">
+        <p>Choose any character in the giant component and we return one shortest chain to Spider-Man. The longest distance in this snapshot is <strong>3 links</strong>, shared by 18 characters. One example is <strong>Box → Guardian → Puck → Spider-Man</strong>.</p>
+        <div class="spider-tool"><label for="spider-input">Character to Spider-Man</label><input id="spider-input" list="spider-character-options" placeholder="Type a character" autocomplete="off" /><datalist id="spider-character-options"></datalist><button id="spider-button" type="button">Find chain</button><p id="spider-result" aria-live="polite">Type a character to see its shortest chain.</p><p class="small-copy">Longest chain found: 3 links. Ties are retained in the saved analysis.</p></div>
+      </div>
+    </section>
+
+    <section class="story-section surprise" id="cliques">
+      <div><p class="section-label">06 · Cliques and homophily</p><h2>A dense core,<br />then a cautious claim.</h2></div>
+      <div class="prose">
+        <p>The largest cliques have size <strong>8</strong>. The top examples are overwhelmingly X-Men characters: Betsy Braddock, Cable, Cyclops, Emma Frost, Jean Grey, Rachel Summers and Wolverine, with the eighth position varying between Jubilee, Northstar, Phoenix Force and Storm. The largest cliques are therefore team-like, but clique membership alone does not prove a team caused the links.</p>
+        <p>For an exploratory homophily test, we assign a faction only when the frozen Wikipedia description explicitly names one of the selected groups. Among the <strong>8 labelled characters</strong>, the real attribute assortativity is <strong>0.741</strong>, versus a label-permutation null mean of <strong>-0.172</strong> (z = <strong>3.94</strong>). The observed labels are more same-faction than chance in this restricted subset.</p>
+        <p class="small-copy">This is deliberately a weakly powered, text-derived attribute test: most descriptions do not name a faction, so it is evidence for a follow-up, not a general estimate of Marvel homophily. A proper extension would scrape consistent team membership for all characters and repeat the label permutation, ideally stratified by degree.</p>
+        <div class="clique-list"><strong>Largest clique examples</strong><ul><li>Betsy Braddock · Cable · Cyclops · Emma Frost · Jean Grey · Jubilee · Rachel Summers · Wolverine</li><li>Betsy Braddock · Cable · Cyclops · Emma Frost · Jean Grey · Northstar · Rachel Summers · Wolverine</li><li>Anya Corazon · Mayday Parker · Spider-Girl · Spider-Man · Spider-Woman · Spider-Woman (Gwen Stacy)</li></ul></div>
+      </div>
+    </section>
+
     <section class="results-section" id="results">
-      <p class="section-label">03 · The result</p>
+      <p class="section-label">07 · The result</p>
       <h2>Rockman is the<br />smallest big deal.</h2>
       <figure>
         <a href="betweenness_surprises.png"><img src="betweenness_surprises.png" width="1980" height="1080" alt="Log-log scatter plot of degree against betweenness centrality. Rockman, Turbo, Nightmask, Hercules and Black Widow are highlighted as characters with unusually high betweenness for their degree." /></a>
@@ -101,7 +138,7 @@
     </section>
 
     <section class="story-section surprise" id="rockman">
-      <div><p class="section-label">04 · The two-link broker</p><h2>One door<br />between worlds.</h2></div>
+      <div><p class="section-label">08 · The two-link broker</p><h2>One door<br />between worlds.</h2></div>
       <div class="prose">
         <p>Rockman's two neighbors are <strong>Black Widow</strong> and <strong>The Witness</strong>. That tiny neighborhood is exactly why the result is interesting: Rockman is not influential because he has a large audience. He is influential because his two links connect positions that are otherwise rarely connected in the null networks.</p>
         <p>In the real graph, a shortest path between many nodes on opposite sides can pass through this narrow route. In a degree-preserving shuffle, a two-link character usually lands in a less strategically placed pair of neighborhoods, so its betweenness is close to zero.</p>
@@ -117,7 +154,7 @@
     </section>
 
     <section class="story-section" id="limits">
-      <div><p class="section-label">05 · What it means</p><h2>Surprising<br />is conditional.</h2></div>
+      <div><p class="section-label">09 · What it means</p><h2>Surprising<br />is conditional.</h2></div>
       <div class="prose">
         <p>The right conclusion is not “Rockman is the most important character.” Betweenness measures control of shortest-path traffic, and our z-score says Rockman's position is unusual given his degree in this graph. That is a precise claim about one measure and one null model.</p>
         <p>The network is an undirected projection of Wikipedia hyperlinks, so it does not represent friendship or influence directly. We analyse one frozen snapshot, one connected component and 200 randomised networks. More shuffles would make the null estimate more stable; a different null model could answer a different question.</p>
@@ -126,12 +163,13 @@
     </section>
 
     <section class="story-section tinted" id="reproduce">
-      <div><p class="section-label">06 · Open the workings</p><h2>Rerun it.<br />Question it.</h2></div>
+      <div><p class="section-label">10 · Open the workings</p><h2>Rerun it.<br />Question it.</h2></div>
       <div class="prose">
         <p>The results and chart were generated from the frozen Week 1 snapshot. The analysis script checks the component size, performs degree-preserving swaps, saves every character's real and null values, and records the source hashes and software versions.</p>
         <ul class="resource-list">
           <li><a href="../../scripts/analyze_week3.py">Week 3 analysis script</a></li>
-          <li><a href="../../data/week3/centralities.csv">All 277 character centrality comparisons (CSV)</a> · <a href="../../data/week3/results.json">summary and provenance (JSON)</a></li>
+          <li><a href="../../data/week3/centralities.csv">All 277 character centrality comparisons (CSV)</a> · <a href="../../data/week3/direction_rankings.csv">directed rankings (CSV)</a> · <a href="../../data/week3/results.json">summary and provenance (JSON)</a></li>
+          <li><a href="../../data/week3/removal_curves.json">removal curves (JSON)</a> · <a href="removal_fragments.png">removal figure</a> · <a href="../../data/week3/graph.json">interactive graph data</a></li>
           <li><a href="../../data/week1/week1_nodes.tsv">Original node roster</a> · <a href="../../data/week1/week1_edges.tsv">original directed links</a></li>
           <li>Reference: <a href="https://sunelehmann.com/socialgraphs2026-web/weeks/week3.html#go-nuts">Week 3 exercise 3.12</a> and <a href="https://sunelehmann.com/socialgraphs2026-web/weeks/week3.html#compared-to-what">Compared to what?</a></li>
         </ul>

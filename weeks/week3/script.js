@@ -8,6 +8,10 @@ const sourceSelect = document.getElementById("path-source");
 const targetSelect = document.getElementById("path-target");
 const pathButton = document.getElementById("path-button");
 const pathResult = document.getElementById("path-result");
+const spiderInput = document.getElementById("spider-input");
+const spiderOptions = document.getElementById("spider-character-options");
+const spiderButton = document.getElementById("spider-button");
+const spiderResult = document.getElementById("spider-result");
 
 let graph;
 let nodesById;
@@ -42,6 +46,11 @@ function populateControls() {
   nodeSelect.value = rockman?.id ?? sorted[0].id;
   sourceSelect.value = rockman?.id ?? sorted[0].id;
   targetSelect.value = spiderMan?.id ?? sorted[1].id;
+  for (const node of sorted) {
+    const option = document.createElement("option");
+    option.value = displayName(node.character);
+    spiderOptions.appendChild(option);
+  }
 }
 
 function localEdges(ids) {
@@ -135,6 +144,24 @@ function showPath() {
   pathResult.textContent = `${path.length - 1} links: ${names.join("  ->  ")}`;
 }
 
+function showSpiderPath() {
+  const query = spiderInput.value.trim().toLowerCase();
+  const start = graph.nodes.find((node) => displayName(node.character).toLowerCase() === query || node.character.toLowerCase() === query || displayName(node.character).toLowerCase().startsWith(query));
+  const spider = graph.nodes.find((node) => node.character === "Spider-Man");
+  if (!start || !spider) {
+    spiderResult.textContent = "Choose a character from the suggestions.";
+    return;
+  }
+  const path = shortestPath(start.id, spider.id);
+  if (!path.length) {
+    spiderResult.textContent = "No path found to Spider-Man in the giant component.";
+    return;
+  }
+  spiderResult.textContent = `${path.length - 1} links: ${path.map((id) => displayName(nodesById.get(id).character)).join("  ->  ")}`;
+  nodeSelect.value = start.id;
+  drawNetwork(path, path);
+}
+
 async function start() {
   try {
     const response = await fetch(graphUrl);
@@ -149,6 +176,10 @@ async function start() {
     populateControls();
     nodeSelect.addEventListener("change", renderSelected);
     pathButton.addEventListener("click", showPath);
+    spiderButton.addEventListener("click", showSpiderPath);
+    spiderInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") showSpiderPath();
+    });
     renderSelected();
   } catch (error) {
     pathResult.textContent = "The explorer could not load its graph data. The analysis and article remain available below.";
