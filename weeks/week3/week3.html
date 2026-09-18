@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Which Marvel characters are structural brokers beyond what their degree predicts?" />
+  <title>Week 3 · The bridges degree misses | Go Nuts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../week1/styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#question">Skip to the analysis</a>
+  <header class="site-header">
+    <div class="brand-lockup"><a class="logo" href="../../index.html"><span>✳</span> GO NUTS</a><span class="author">Perin · Svenstrup · Cabré</span></div>
+    <a class="header-link" href="https://github.com/oscarsvenstrup/02805GoNuts">GitHub ↗</a>
+  </header>
+  <main>
+    <div class="week-bar">
+      <div class="week-heading"><p class="section-label">Week 03</p><span>Advanced network measures</span></div>
+      <nav class="week-nav" aria-label="Weekly posts"><a class="week-link" href="../../index.html">All weeks</a><a class="week-link" href="../week1/week1.html">Week 1</a><a class="week-link" href="../week2/week2.html">Week 2</a><a class="week-link active" href="week3.html" aria-current="page">Week 3</a></nav>
+    </div>
+    <section class="post-intro week3-hero" aria-labelledby="title">
+      <p class="section-label">Group exercise 3.12 · Brokers, compared to what</p>
+      <h1 id="title">The bridges<br /><em>degree misses.</em></h1>
+      <p class="intro">Who is surprisingly important in the Marvel network? We keep every character's degree fixed, shuffle the links 200 times, and look for betweenness that cannot be explained by popularity alone.</p>
+      <div class="post-meta"><span>Frozen course snapshot · 277-node giant component</span><span>200 degree-preserving shuffles</span></div>
+    </section>
+    <div class="stats-strip" aria-label="Main results">
+      <div><strong>277</strong><span>Characters in the giant component</span></div>
+      <div><strong>1,421</strong><span>Undirected links</span></div>
+      <div><strong>6.88</strong><span>Rockman betweenness z-score</span></div>
+      <div><strong>2</strong><span>Rockman links</span></div>
+    </div>
+
+    <section class="story-section" id="question">
+      <div><p class="section-label">01 · The question</p><h2>Popularity is not<br />control.</h2></div>
+      <div class="prose">
+        <p>Degree asks how many direct connections a character has. Betweenness asks a different question: how often does a character sit on the shortest route between other pairs?</p>
+        <p>A high-degree character can be popular without being a broker. A low-degree character can control access between parts of the network if removing it forces many routes to go elsewhere.</p>
+        <p class="formula">b(i) = sum over pairs s,t of shortest paths through i / all shortest paths from s to t</p>
+        <p>Following the Week 3 prompt, we ask: <strong>which characters have more betweenness than their degree should produce?</strong></p>
+      </div>
+    </section>
+
+    <section class="story-section tinted" id="method">
+      <div><p class="section-label">02 · The comparison</p><h2>Keep degrees.<br />Move the bridges.</h2></div>
+      <div class="prose">
+        <p>We use the original undirected giant component: 277 characters and 1,421 links. For every null network, we perform successful double-edge swaps. The swaps change who connects to whom, while every character keeps exactly the same degree.</p>
+        <p>We compute betweenness in the real network and in 200 shuffled networks. For each character, the surprise score is the distance between the real value and the shuffle mean, measured in shuffle standard deviations:</p>
+        <p class="formula">z = (real betweenness - null mean) / null standard deviation</p>
+        <p>This is a degree-preserving comparison, not a claim that the shuffle is a perfect model of Wikipedia. It answers the narrower question: is this position more broker-like than its degree sequence alone tends to create?</p>
+      </div>
+    </section>
+
+    <section class="network-explorer" id="explorer" aria-labelledby="explorer-title">
+      <div class="explorer-heading"><p class="section-label">02A · Explore the answer</p><h2 id="explorer-title">Find the<br /><span>bridge.</span></h2><p>Choose a character to see its local neighborhood and how unusual its betweenness is against the degree-preserving null. Then choose two characters to trace a shortest chain between them.</p></div>
+      <div class="explorer-controls">
+        <label for="node-select">Inspect character</label>
+        <select id="node-select"></select>
+        <div class="explorer-stats" aria-live="polite"><div><span>Degree</span><strong id="node-degree">-</strong></div><div><span>Betweenness z</span><strong id="node-z">-</strong></div><div><span>Null mean</span><strong id="node-null">-</strong></div></div>
+        <p id="node-explanation">Loading the graph data...</p>
+      </div>
+      <div class="graph-frame"><svg id="ego-graph" viewBox="0 0 1000 560" role="img" aria-label="Interactive local neighborhood graph"></svg></div>
+      <div class="path-controls">
+        <div><label for="path-source">Shortest path from</label><select id="path-source"></select></div>
+        <div><label for="path-target">to</label><select id="path-target"></select></div>
+        <button id="path-button" type="button">Show path</button>
+      </div>
+      <p class="path-result" id="path-result" aria-live="polite">Select two characters to find their shortest path.</p>
+    </section>
+
+    <section class="results-section" id="results">
+      <p class="section-label">03 · The result</p>
+      <h2>Rockman is the<br />smallest big deal.</h2>
+      <figure>
+        <a href="betweenness_surprises.png"><img src="betweenness_surprises.png" width="1980" height="1080" alt="Log-log scatter plot of degree against betweenness centrality. Rockman, Turbo, Nightmask, Hercules and Black Widow are highlighted as characters with unusually high betweenness for their degree." /></a>
+        <figcaption><strong>How to read this plot.</strong> Each point is one character in the real giant component. The horizontal axis is degree; the vertical axis is betweenness. Orange labels identify the five largest positive z-scores against degree-preserving shuffles, not simply the five largest raw betweenness values.</figcaption>
+      </figure>
+      <div class="table-scroll" role="region" aria-label="Most surprising characters" tabindex="0">
+        <table>
+          <caption>Characters furthest above or below the degree-preserving expectation</caption>
+          <thead><tr><th scope="col">Character</th><th scope="col">Degree</th><th scope="col">Real betweenness</th><th scope="col">Null mean</th><th scope="col">z-score</th></tr></thead>
+          <tbody>
+            <tr class="main-result"><th scope="row">Rockman</th><td>2</td><td>0.00725</td><td>0.00023</td><td>+6.88</td></tr>
+            <tr><th scope="row">Turbo</th><td>5</td><td>0.00751</td><td>0.00094</td><td>+4.63</td></tr>
+            <tr><th scope="row">Nightmask</th><td>5</td><td>0.00766</td><td>0.00090</td><td>+4.44</td></tr>
+            <tr><th scope="row">Hercules</th><td>26</td><td>0.03738</td><td>0.01756</td><td>+4.42</td></tr>
+            <tr><th scope="row">Black Widow</th><td>25</td><td>0.03512</td><td>0.01602</td><td>+4.39</td></tr>
+            <tr><th scope="row">Black Cat</th><td>28</td><td>0.00715</td><td>0.02008</td><td>-2.62</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="result-copy">
+        <p><strong>The surprise is not Spider-Man.</strong> Spider-Man's raw centrality is high, but a hub with a very large degree is expected to lie on many shortest paths. Rockman is different: with only two links, his betweenness is 6.88 shuffle standard deviations above the degree-preserving expectation.</p>
+        <p>The negative side matters too. Black Cat has 28 links, but her betweenness is below the shuffled expectation. Many of her connections have alternative routes around them, so popularity does not make her a structural bottleneck.</p>
+      </div>
+    </section>
+
+    <section class="story-section surprise" id="rockman">
+      <div><p class="section-label">04 · The two-link broker</p><h2>One door<br />between worlds.</h2></div>
+      <div class="prose">
+        <p>Rockman's two neighbors are <strong>Black Widow</strong> and <strong>The Witness</strong>. That tiny neighborhood is exactly why the result is interesting: Rockman is not influential because he has a large audience. He is influential because his two links connect positions that are otherwise rarely connected in the null networks.</p>
+        <p>In the real graph, a shortest path between many nodes on opposite sides can pass through this narrow route. In a degree-preserving shuffle, a two-link character usually lands in a less strategically placed pair of neighborhoods, so its betweenness is close to zero.</p>
+        <h3>What do the larger brokers bridge?</h3>
+        <p>Hercules and Black Widow show the same effect at a larger scale. Hercules links a broad set spanning Avengers, cosmic characters, Asgard and Hulk-related characters. Black Widow's neighborhood crosses Avengers, Spider-Man, X-related and villain-linked areas. Their degrees matter, but their positions matter more than degree predicts.</p>
+        <ul class="neighbor-list" aria-label="Selected broker neighborhoods">
+          <li>Rockman · Black Widow · The Witness</li>
+          <li>Hercules · Hulk · Spider-Man · Wolverine · Ares · Black Widow</li>
+          <li>Black Widow · Hawkeye · Iron Man · Red Guardian · Spider-Man · Wolverine</li>
+          <li>Turbo · Darkhawk · Nova · Phil Urich · Rom</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="story-section" id="limits">
+      <div><p class="section-label">05 · What it means</p><h2>Surprising<br />is conditional.</h2></div>
+      <div class="prose">
+        <p>The right conclusion is not “Rockman is the most important character.” Betweenness measures control of shortest-path traffic, and our z-score says Rockman's position is unusual given his degree in this graph. That is a precise claim about one measure and one null model.</p>
+        <p>The network is an undirected projection of Wikipedia hyperlinks, so it does not represent friendship or influence directly. We analyse one frozen snapshot, one connected component and 200 randomised networks. More shuffles would make the null estimate more stable; a different null model could answer a different question.</p>
+        <p>Week 3's central lesson is therefore also the method: say <strong>which question</strong> a centrality answers, and say <strong>compared to what</strong>.</p>
+      </div>
+    </section>
+
+    <section class="story-section tinted" id="reproduce">
+      <div><p class="section-label">06 · Open the workings</p><h2>Rerun it.<br />Question it.</h2></div>
+      <div class="prose">
+        <p>The results and chart were generated from the frozen Week 1 snapshot. The analysis script checks the component size, performs degree-preserving swaps, saves every character's real and null values, and records the source hashes and software versions.</p>
+        <ul class="resource-list">
+          <li><a href="../../scripts/analyze_week3.py">Week 3 analysis script</a></li>
+          <li><a href="../../data/week3/centralities.csv">All 277 character centrality comparisons (CSV)</a> · <a href="../../data/week3/results.json">summary and provenance (JSON)</a></li>
+          <li><a href="../../data/week1/week1_nodes.tsv">Original node roster</a> · <a href="../../data/week1/week1_edges.tsv">original directed links</a></li>
+          <li>Reference: <a href="https://sunelehmann.com/socialgraphs2026-web/weeks/week3.html#go-nuts">Week 3 exercise 3.12</a> and <a href="https://sunelehmann.com/socialgraphs2026-web/weeks/week3.html#compared-to-what">Compared to what?</a></li>
+        </ul>
+        <p class="small-copy">AI assistance: the LLM helped formulate and implement the analysis and draft the explanation. The degree-preserving validation, saved results and null comparison are published so the claims can be checked.</p>
+      </div>
+    </section>
+  </main>
+  <footer><span>02805 · GO NUTS</span><a href="../../index.html">Back to all weeks ↑</a></footer>
+</body>
+</html>

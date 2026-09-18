@@ -8,7 +8,7 @@ The site is a dependency-free static page. The workflow in `.github/workflows/pa
 
 ## Weekly pages
 
-The landing page in `index.html` lists all eight weeks. Week 1 lives in `weeks/week1/week1.html`; Week 2 lives in `weeks/week2/week2.html`. Both use the unchanged frozen Marvel dataset in `data/week1/`. Week 2 simulation results live in `data/week2/`.
+The landing page in `index.html` lists all eight weeks. Week 1 lives in `weeks/week1/week1.html`; Week 2 lives in `weeks/week2/week2.html`; Week 3 lives in `weeks/week3/week3.html`. The weekly pages use the frozen Marvel dataset in `data/week1/`. Week 2 and Week 3 generated results live in `data/week2/` and `data/week3/`.
 
 To enable it the first time:
 
@@ -42,9 +42,22 @@ python -m http.server 8000
 
 Open `http://localhost:8000/weeks/week2/week2.html`. No JavaScript dependencies or build step are needed. If JavaScript or the result fetch is unavailable, the full article, figure and table still work.
 
-### Remaining course submission steps
+## Week 3: the bridges degree misses
 
-Publishing the website is not the entire submission. The [standing rules](https://sunelehmann.com/socialgraphs2026-web/weeks/week1.html#go-nuts) also require posting the link in the Week 2 Teams channel by Monday evening and constructive feedback on at least one other group's post. Those actions have **not** been completed by this repository update.
+This post addresses exercise 3.12 by asking which characters have unusually high or low betweenness after comparing them with 200 degree-preserving edge-swap networks. The analysis uses the original undirected giant component, saves every character's centrality comparison, and publishes the figure and provenance in `data/week3/`.
+
+Run the analysis and verifier with the same pinned Week 2 environment:
+
+```sh
+python scripts/analyze_week3.py
+python scripts/verify_week3.py
+```
+
+The post is available at `weeks/week3/week3.html`. Its main result is that Rockman has a betweenness z-score of 6.88 despite having only two links; Black Cat is a contrasting high-degree character whose betweenness is below the degree-preserving expectation.
+
+## Remaining course submission steps
+
+Publishing the website is not the entire submission. The [standing rules](https://sunelehmann.com/socialgraphs2026-web/weeks/week1.html#go-nuts) also require posting the current week's link in Teams by Monday evening and constructive feedback on at least one other group's post. Those actions have **not** been completed by this repository update.
 
 Suggested Teams message (review before posting):
 
