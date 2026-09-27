@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Louvain and Infomap both find community structure in the Marvel network far beyond chance, but they only agree with each other 60% of the time. Where they disagree is the interesting part." />
+  <title>Week 4 · Louvain agrees with itself more than with Infomap | Go Nuts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../week1/styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#question">Skip to the analysis</a>
+  <header class="site-header">
+    <div class="brand-lockup"><a class="logo" href="../../index.html"><span>✳</span> GO NUTS</a><span class="author">Perin · Svenstrup · Cabré</span></div>
+    <a class="header-link" href="https://github.com/oscarsvenstrup/02805GoNuts">GitHub ↗</a>
+  </header>
+  <main>
+    <div class="week-bar">
+      <div class="week-heading"><p class="section-label">Week 04</p><span>Communities and seeing networks</span></div>
+      <nav class="week-nav" aria-label="Weekly posts"><a class="week-link" href="../../index.html">All weeks</a><a class="week-link" href="../week1/week1.html">Week 1</a><a class="week-link" href="../week2/week2.html">Week 2</a><a class="week-link" href="../week3/week3.html">Week 3</a><a class="week-link active" href="week4.html" aria-current="page">Week 4</a></nav>
+    </div>
+    <section class="post-intro week4-hero" aria-labelledby="title">
+      <p class="section-label">Go nuts opener 1 · Louvain vs Infomap</p>
+      <h1 id="title">Two methods,<br /><em>one network,</em><br />different maps.</h1>
+      <p class="intro">We ask Louvain and Infomap the same question — what are Marvel's communities? — on the same 277-character giant component. Both agree the network is far more grouped than chance. They agree with each other far less than that.</p>
+      <div class="post-meta"><span>Same frozen 277-node giant component as Weeks 2 &amp; 3</span><span>10 Louvain seeds · 20 degree-preserving shuffles · Infomap</span></div>
+    </section>
+    <div class="stats-strip" aria-label="Main results">
+      <div><strong>8</strong><span>Louvain communities, Q = 0.390</span></div>
+      <div><strong>17</strong><span>Infomap modules, Q = 0.371</span></div>
+      <div><strong>0.62</strong><span>NMI, Louvain vs Infomap</span></div>
+      <div><strong>z = 40.0</strong><span>Real Q vs degree-preserving shuffles</span></div>
+    </div>
+
+    <section class="story-section" id="question">
+      <div><p class="section-label">01 · The question</p><h2>Is Marvel<br />made of groups?</h2></div>
+      <div class="prose">
+        <p>Weeks 2 and 3 asked what a single node or a single link can tell us. This week zooms out: are there groups of characters that hang together — the way X-Men, Avengers or Spider-people cluster on Wikipedia?</p>
+        <p>Modularity <strong>Q</strong> scores a proposed partition: the fraction of links that fall inside groups, minus what a degree-preserving null would expect by chance.</p>
+        <p class="formula">Q = (1/2m) sum_ij (A_ij - k_i k_j / 2m) delta(c_i, c_j)</p>
+        <p>Following the Week 4 prompt, we ask the sharper question: <strong>if we hand the same network to two different community-detection algorithms, how much do they agree, and where do they disagree?</strong></p>
+      </div>
+    </section>
+
+    <section class="story-section tinted" id="method">
+      <div><p class="section-label">02 · The two methods</p><h2>Move nodes,<br />or compress a walk.</h2></div>
+      <div class="prose">
+        <p><strong>Louvain</strong> starts with every character alone, repeatedly moves one character into a neighboring community whenever that raises Q, then collapses each community into a super-node and repeats. It is greedy and fast, and the order characters are visited in (set by a random seed) changes the answer.</p>
+        <p><strong>Infomap</strong> asks a different question entirely: if a random walker wandered the network, what grouping of characters gives the shortest two-level description of its path? It optimizes a map equation, not modularity, and handles the walk-structure of the network natively.</p>
+        <p>We use the same undirected giant component as Weeks 2 and 3: <strong>277 characters, 1,421 links</strong>. The canonical Louvain run uses seed 280504 (this project's running seed, one more than Week 3's). Infomap uses its default two-level search.</p>
+      </div>
+    </section>
+
+    <section class="network-explorer" id="explorer" aria-labelledby="explorer-title">
+      <div class="explorer-heading"><p class="section-label">02A · Explore the answer</p><h2 id="explorer-title">Same layout.<br /><span>Two colorings.</span></h2><p>The node positions are fixed (one force layout of the real network). Switch between Louvain's 8 communities and Infomap's 17 modules to see the same characters regrouped. A coral ring marks a character the two methods place on different sides of a boundary.</p></div>
+      <div class="explorer-controls">
+        <div><label for="mode-toggle">Coloring</label><div class="mode-toggle" id="mode-toggle" role="group" aria-label="Choose community coloring"><button type="button" data-mode="louvain" class="active">Louvain</button><button type="button" data-mode="infomap">Infomap</button></div></div>
+        <div><label for="community-select">Isolate a community</label><select id="community-select"></select></div>
+        <div></div>
+      </div>
+      <div class="graph-frame"><svg id="community-graph" viewBox="0 0 1000 600" role="img" aria-label="Interactive community graph of the Marvel giant component"></svg></div>
+      <div class="legend-strip" id="legend-strip" aria-hidden="true"></div>
+      <p id="node-explanation" aria-live="polite">Loading the graph data...</p>
+    </section>
+
+    <section class="story-section" id="null-model">
+      <div><p class="section-label">03 · Compared to what</p><h2>Random networks<br />aren't zero either.</h2></div>
+      <div class="prose">
+        <p>Section 4's biggest warning: a random network's modularity is not zero, because with enough links an optimizer always finds some way to draw borders that cross fewer links than expected. We took the real 277-node, 1,421-link graph, ran 20 degree-preserving double-edge swaps (as in Week 2 and Week 3), and re-ran Louvain on each shuffle.</p>
+        <figure>
+          <img src="null_model_shuffle.png" width="1980" height="990" alt="Histogram of Louvain modularity across 20 degree-preserving shuffles of the Marvel network, clustered tightly around 0.25, with the real network's modularity of 0.39 marked far to the right, well beyond every shuffle." />
+          <figcaption><strong>How to read this chart.</strong> Each bar counts shuffled networks whose Louvain modularity fell in that range. The coral line is the real Marvel network. None of the 20 shuffles gets close.</figcaption>
+        </figure>
+        <div class="table-scroll">
+          <table>
+            <caption>Modularity, compared to its degree-preserving null</caption>
+            <thead><tr><th scope="col">Network</th><th scope="col">Runs</th><th scope="col">Mean Q</th><th scope="col">Standard deviation</th><th scope="col">z-score</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Real Marvel (Louvain)</th><td>1</td><td>0.390</td><td>—</td><td>—</td></tr>
+              <tr class="main-result"><th scope="row">Degree-preserving shuffles</th><td>20</td><td>0.248</td><td>0.0035</td><td>+39.99</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="result-copy">The real network's modularity is about 40 shuffle standard deviations above the null mean. This is the same lesson as Week 2's clustering test and Week 3's betweenness test, applied to a new statistic: <strong>Marvel's grouping is not an artifact of its degree sequence alone.</strong> But — as the course material stresses — a random network with the same size and density still reaches Q ≈ 0.25, nowhere near zero. Report modularity against its null, never on its own.</p>
+      </div>
+    </section>
+
+    <section class="story-section tinted" id="stability">
+      <div><p class="section-label">04 · How stable is one run</p><h2>Same algorithm,<br />ten different answers.</h2></div>
+      <div class="prose">
+        <p>We reran Louvain with 10 different seeds. Every run found 7, 8 or 9 communities, with modularity between 0.371 and 0.386 — a tight range. But the partitions themselves move more than the score suggests: pairwise normalized mutual information (NMI) between the 10 runs ranges from <strong>0.53 to 0.89</strong>, averaging 0.70.</p>
+        <p>That is the exact pattern the course material predicts for the philosophers (NMI 0.65–0.83) and for Marvel specifically (quoted at 0.59 in one run pair). <strong>Nearly identical Q, meaningfully different community assignments.</strong> A single Louvain run is a sample of a plausible partition, not the partition.</p>
+      </div>
+    </section>
+
+    <section class="results-section" id="results">
+      <p class="section-label">05 · The landscape</p>
+      <h2>Eight groups,<br />two of them rock-solid.</h2>
+      <figure>
+        <img src="community_landscape.png" width="1980" height="1620" alt="Force-directed layout of the 277-character Marvel giant component, colored by 8 Louvain communities and sized by degree, with the highest-degree member of each community labeled." />
+        <figcaption><strong>How to read this plot.</strong> Each point is one character; edges are faint gray lines. Color marks the canonical Louvain community (seed 280504); size marks degree. Labels name the highest-degree member of each of the eight communities.</figcaption>
+      </figure>
+      <div class="table-scroll" role="region" aria-label="Named communities" tabindex="0">
+        <table>
+          <caption>The eight Louvain communities, named by their top members</caption>
+          <thead><tr><th scope="col">Community</th><th scope="col">Size</th><th scope="col">Top five by degree</th><th scope="col">Agrees with Infomap</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Founding Avengers &amp; street heroes</th><td>51</td><td>Black Panther, Luke Cage, Hank Pym, Moon Knight, Iron Fist</td><td>41%</td></tr>
+            <tr class="main-result"><th scope="row">X-Men</th><td>44</td><td>Wolverine, Phoenix Force, Betsy Braddock, Emma Frost, Storm</td><td>91%</td></tr>
+            <tr><th scope="row">Cosmic Avengers</th><td>40</td><td>Hercules, Adam Warlock, Quasar, Nova (Richard Rider), Noh-Varr</td><td>53%</td></tr>
+            <tr><th scope="row">Spider-Verse</th><td>39</td><td>Spider-Man, Venom, Black Cat, Eddie Brock, Spider-Woman (Jessica Drew)</td><td>69%</td></tr>
+            <tr class="main-result"><th scope="row">Supernatural / Midnight Sons</th><td>32</td><td>Doctor Strange, Deadpool, Blade, Ghost Rider, Man-Thing</td><td>94%</td></tr>
+            <tr><th scope="row">Hulk family</th><td>31</td><td>Hulk, She-Hulk, Speedball, Solo, Captain Britain</td><td>23%</td></tr>
+            <tr><th scope="row">Inhumans &amp; Fantastic Four</th><td>29</td><td>Scarlet Witch, Black Bolt, Human Torch, Human Torch (android), Quicksilver</td><td>52%</td></tr>
+            <tr><th scope="row">Young cosmic heroes</th><td>11</td><td>Cloak and Dagger, Deathlok, Darkhawk, Chase Stein, Cammi</td><td>36%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="result-copy">
+        <p><strong>"Agrees with Infomap"</strong> is the purity of each Louvain community: the share of its members that Infomap also puts in that community's majority module. X-Men (91%) and the Supernatural cluster (94%) are close to method-independent — both algorithms see the same team, whichever lens they use. The Hulk-centered group (23%) is the opposite: Infomap splits it into several smaller modules, so "Hulk family" is really an artifact of where Louvain chose to stop merging, not a robust group.</p>
+      </div>
+    </section>
+
+    <section class="story-section surprise" id="disagreement">
+      <div><p class="section-label">06 · Where the two methods disagree</p><h2>The hairball<br />has real disagreement.</h2></div>
+      <div class="prose">
+        <p>We aligned each Louvain community with its majority Infomap module (the module that captures the most of that community's members), then flagged every character whose Infomap module was not that majority. <strong>40.4% of characters disagree</strong> under this alignment — nearly the network's NMI-predicted level of overlap (NMI = 0.62).</p>
+        <figure>
+          <img src="louvain_vs_infomap.png" width="1980" height="1620" alt="The same force layout, with characters colored coral where Louvain and Infomap disagree on their group and light blue where the two methods agree. Disagreement is concentrated around Hulk, Scarlet Witch, Hercules, Black Widow and other characters with many cross-team connections." />
+          <figcaption><strong>How to read this plot.</strong> Light-blue points sit inside a community both methods agree is one group. Coral points, sized by degree, are the boundary characters: high-connectivity characters whose links reach across more than one plausible community.</figcaption>
+        </figure>
+        <p>The characters who disagree most are not random: <strong>Hulk, Scarlet Witch, Cloak and Dagger, Hercules, Black Widow, Mockingbird, U.S. Agent, Nova, Deathlok</strong> among them. These are exactly the high-degree characters that link team-adjacent groups together — Avengers-with-everyone characters, not core team members. This is a small-scale echo of Section 5's Aristotle: high-degree nodes are the ones a hard partition is forced to place on only one side, when their actual position is "a bit of both."</p>
+      </div>
+    </section>
+
+    <section class="story-section" id="limits">
+      <div><p class="section-label">07 · What it means, and what it does not</p><h2>Both algorithms<br />found groups. Neither<br />found the truth.</h2></div>
+      <div class="prose">
+        <p><strong>What survives:</strong> both Louvain and Infomap find far more grouping than a degree-preserving shuffle can produce (z ≈ 40). Both independently reconstruct recognizable Marvel teams: an X-Men cluster, a Spider-Verse cluster, a supernatural cluster. That convergence, on two very different objectives (modularity vs. description length), is the strongest evidence that these groups are real structure, not an artifact of one algorithm's bias.</p>
+        <p><strong>What does not survive:</strong> the exact partition. Ten Louvain seeds already disagree with each other (NMI 0.53–0.89); Louvain and Infomap disagree even more (NMI 0.62, 40% of characters relabeled under our alignment). A single run's community list — ours included — is one sample from a landscape of similarly-scoring partitions, exactly as Section 4 warns.</p>
+        <p>We also tried the cheapest possible ground-truth check: Week 3's text-derived faction labels (X-Men / Avengers / Fantastic Four / Guardians / Spider-Man, assigned only when a character's frozen description names one). Only <strong>8 of 277 characters</strong> qualify, and the NMI between their faction label and our Louvain community is a suspicious <strong>1.0</strong> — perfect agreement is what you expect from 8 data points scattered across 8 communities by chance, not evidence of anything. We report this the way the course material's "AI-drafted report" box tells us to: as a flaw to name, not a number to headline.</p>
+        <p>This is an undirected projection of Wikipedia hyperlinks, not friendship or team membership, and communities here are Louvain's or Infomap's answer to "how would you group this hyperlink graph," not Marvel canon. A hard partition also forces every high-degree crossover character — Hulk, Black Widow, Hercules — onto one side, when Section 5 and 6's overlapping methods (k-clique communities, link clustering) exist precisely because that forcing is sometimes the wrong model. That overlap-aware pass is the natural next step, not attempted here.</p>
+      </div>
+    </section>
+
+    <section class="story-section tinted" id="reproduce">
+      <div><p class="section-label">08 · Open the workings</p><h2>Rerun it.<br />Question it.</h2></div>
+      <div class="prose">
+        <p>The results and figures were generated from the frozen Week 1 snapshot, reusing the same giant component as Weeks 2 and 3. The analysis script runs Louvain across 10 seeds, degree-preserving shuffles for the null, and Infomap, then saves every comparison and the interactive layout.</p>
+        <ul class="resource-list">
+          <li><a href="../../scripts/analyze_week4.py">Week 4 analysis script</a></li>
+          <li><a href="../../data/week4/communities.csv">All 277 characters' community assignments (CSV)</a> · <a href="../../data/week4/results.json">summary, seeds and provenance (JSON)</a> · <a href="../../data/week4/graph.json">interactive graph data</a></li>
+          <li><a href="../../data/week1/week1_nodes.tsv">Original node roster</a> · <a href="../../data/week1/week1_edges.tsv">original directed links</a></li>
+          <li>Reference: <a href="https://sunelehmann.com/socialgraphs2026-web/weeks/week4.html#go-nuts">Week 4 exercise 4.13, opener 1</a> and <a href="https://sunelehmann.com/socialgraphs2026-web/weeks/week4.html#optimizing-modularity-from-greedy-merging-to-louvain">Optimizing modularity</a>.</li>
+        </ul>
+        <p class="small-copy">AI assistance: the LLM helped formulate and implement the analysis (Louvain, Infomap, the null model and the NMI stability checks) and draft the explanation. The degree-preserving validation, saved seeds and cross-method comparison are published so the claims can be checked.</p>
+      </div>
+    </section>
+  </main>
+  <footer><span>02805 · GO NUTS</span><a href="../../index.html">Back to all weeks ↑</a></footer>
+</body>
+</html>

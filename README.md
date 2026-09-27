@@ -8,7 +8,7 @@ The site is a dependency-free static page. The workflow in `.github/workflows/pa
 
 ## Weekly pages
 
-The landing page in `index.html` lists all eight weeks. Week 1 lives in `weeks/week1/week1.html`; Week 2 lives in `weeks/week2/week2.html`; Week 3 lives in `weeks/week3/week3.html`. The weekly pages use the frozen Marvel dataset in `data/week1/`. Week 2 and Week 3 generated results live in `data/week2/` and `data/week3/`.
+The landing page in `index.html` lists all eight weeks. Week 1 lives in `weeks/week1/week1.html`; Week 2 lives in `weeks/week2/week2.html`; Week 3 lives in `weeks/week3/week3.html`; Week 4 lives in `weeks/week4/week4.html`. The weekly pages use the frozen Marvel dataset in `data/week1/`. Weeks 2-4's generated results live in `data/week2/`, `data/week3/` and `data/week4/`.
 
 To enable it the first time:
 
@@ -55,12 +55,18 @@ python scripts/verify_week3.py
 
 The post is available at `weeks/week3/week3.html`. Its main result is that Rockman has a betweenness z-score of 6.88 despite having only two links; Black Cat is a contrasting high-degree character whose betweenness is below the degree-preserving expectation.
 
-## Remaining course submission steps
+## Week 4: Louvain agrees with itself more than with Infomap
 
-Publishing the website is not the entire submission. The [standing rules](https://sunelehmann.com/socialgraphs2026-web/weeks/week1.html#go-nuts) also require posting the current week's link in Teams by Monday evening and constructive feedback on at least one other group's post. Those actions have **not** been completed by this repository update.
+This post addresses exercise 4.13's first suggested opener: run Louvain and Infomap on the same network, compare them by NMI, and show where they disagree. It reuses the frozen giant component from Weeks 2 and 3 (277 nodes, 1,421 links) rather than switching to the philosopher network, since the group already has a Marvel story going.
 
-Suggested Teams message (review before posting):
+Louvain (10 seeds) finds 7-9 communities at Q around 0.38; the canonical run (seed 280504) finds 8 communities at Q = 0.390, about 40 standard deviations above 20 degree-preserving shuffles (mean Q = 0.248). Infomap finds 17 modules at Q = 0.371. The two methods agree at NMI = 0.62, and a majority-vote alignment shows 40.4% of characters land in a different relative group depending on which algorithm is asked. Disagreement concentrates on high-degree, cross-team characters (Hulk, Scarlet Witch, Hercules, Black Widow); tight teams like the X-Men (91% agreement) and a supernatural cluster (94%) are stable under both methods.
 
-> Our Week 2 Go Nuts post asks whether Marvel's high clustering is just a consequence of its hubs. We compared random links, degree-preserving shuffles and a simplified configuration model. Real clustering is 0.320 versus 0.156 after degree-preserving shuffling; we also show why configuration-model cleanup can weaken the hubs and change the comparison. Post and reproducible notebook: https://oscarsvenstrup.github.io/02805GoNuts/weeks/week2/week2.html
+Run the analysis with its pinned environment:
 
-For peer feedback, read an actual group's post first. Mention a specific strength and suggest one concrete improvement or follow-up test; do not submit generic feedback without reading their work.
+```sh
+python -m pip install -r requirements-week4.txt
+python scripts/analyze_week4.py
+python scripts/verify_week4.py
+```
+
+The post is available at `weeks/week4/week4.html`, with an interactive explorer that toggles between the two methods' colorings on the same fixed layout.

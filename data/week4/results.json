@@ -1,0 +1,555 @@
+{
+  "seed": 280504,
+  "n": 277,
+  "m": 1421,
+  "louvain_canonical": {
+    "n_communities": 8,
+    "modularity": 0.3896251116137202,
+    "sizes": [
+      51,
+      44,
+      40,
+      39,
+      32,
+      31,
+      29,
+      11
+    ]
+  },
+  "stability": {
+    "runs": [
+      {
+        "seed": 0,
+        "n_communities": 8,
+        "modularity": 0.3817729037791923
+      },
+      {
+        "seed": 1,
+        "n_communities": 8,
+        "modularity": 0.3711845193317687
+      },
+      {
+        "seed": 2,
+        "n_communities": 9,
+        "modularity": 0.3835171235132409
+      },
+      {
+        "seed": 3,
+        "n_communities": 8,
+        "modularity": 0.38592743511051925
+      },
+      {
+        "seed": 4,
+        "n_communities": 7,
+        "modularity": 0.3834391239084389
+      },
+      {
+        "seed": 5,
+        "n_communities": 7,
+        "modularity": 0.3805452147613881
+      },
+      {
+        "seed": 6,
+        "n_communities": 7,
+        "modularity": 0.38794106300337605
+      },
+      {
+        "seed": 7,
+        "n_communities": 8,
+        "modularity": 0.38704914371290994
+      },
+      {
+        "seed": 8,
+        "n_communities": 8,
+        "modularity": 0.3823117200968087
+      },
+      {
+        "seed": 9,
+        "n_communities": 9,
+        "modularity": 0.38600667280428635
+      }
+    ],
+    "nmi_matrix": [
+      [
+        1.0,
+        0.5905158876734186,
+        0.6717810357237932,
+        0.6826459285117512,
+        0.5992882736542412,
+        0.624682311850041,
+        0.6601439781972794,
+        0.7502601474466271,
+        0.6153606840577804,
+        0.7044552018248096
+      ],
+      [
+        0.5905158876734186,
+        1.0,
+        0.6427163871150685,
+        0.6061432242267353,
+        0.5334032027641412,
+        0.5480812449530523,
+        0.5418354336922535,
+        0.6612571745713511,
+        0.6229770595848291,
+        0.6051024917557987
+      ],
+      [
+        0.6717810357237934,
+        0.6427163871150685,
+        1.0,
+        0.7426827316263327,
+        0.7202909897922609,
+        0.700606689456408,
+        0.7675589636334729,
+        0.8320348058823726,
+        0.7136267570499241,
+        0.7124099880145868
+      ],
+      [
+        0.6826459285117512,
+        0.6061432242267353,
+        0.7426827316263327,
+        1.0,
+        0.7430875916609198,
+        0.6638715334346209,
+        0.8077818013409136,
+        0.8275801730780533,
+        0.8868176428381416,
+        0.8467999921260603
+      ],
+      [
+        0.5992882736542413,
+        0.5334032027641413,
+        0.720290989792261,
+        0.7430875916609198,
+        1.0,
+        0.5923455919173914,
+        0.7761235949027308,
+        0.6706255124405661,
+        0.7021683392393178,
+        0.6923855285687597
+      ],
+      [
+        0.6246823118500409,
+        0.5480812449530523,
+        0.700606689456408,
+        0.6638715334346209,
+        0.5923455919173913,
+        1.0,
+        0.6588804011615449,
+        0.6962136629514121,
+        0.6515586899356304,
+        0.7378328013276129
+      ],
+      [
+        0.6601439781972794,
+        0.5418354336922533,
+        0.7675589636334729,
+        0.8077818013409136,
+        0.7761235949027308,
+        0.6588804011615449,
+        1.0,
+        0.7907147476818215,
+        0.7687023361030809,
+        0.7915420224665355
+      ],
+      [
+        0.7502601474466272,
+        0.661257174571351,
+        0.8320348058823727,
+        0.8275801730780533,
+        0.6706255124405661,
+        0.696213662951412,
+        0.7907147476818216,
+        1.0,
+        0.7690984827740145,
+        0.7833069780639267
+      ],
+      [
+        0.6153606840577804,
+        0.6229770595848292,
+        0.713626757049924,
+        0.8868176428381417,
+        0.7021683392393178,
+        0.6515586899356305,
+        0.7687023361030807,
+        0.7690984827740145,
+        1.0,
+        0.7911697158816381
+      ],
+      [
+        0.7044552018248095,
+        0.6051024917557987,
+        0.7124099880145865,
+        0.8467999921260604,
+        0.6923855285687598,
+        0.7378328013276129,
+        0.7915420224665355,
+        0.7833069780639268,
+        0.7911697158816381,
+        1.0
+      ]
+    ],
+    "nmi_summary": {
+      "min": 0.5334032027641412,
+      "max": 0.8868176428381417,
+      "mean": 0.6999659496211783
+    }
+  },
+  "null_model": {
+    "runs": 20,
+    "q_values": [
+      0.2498619530803901,
+      0.25487398482895307,
+      0.24666099786999177,
+      0.2421825824653917,
+      0.24687023490509552,
+      0.24746501284393493,
+      0.24544568974183864,
+      0.24161182345247548,
+      0.25225072192967557,
+      0.2524594637291933,
+      0.24728623279737288,
+      0.2473152040791565,
+      0.250562216199057,
+      0.24812887614702753,
+      0.24413430590999294,
+      0.24863773071168824,
+      0.25195407581363494,
+      0.24935582231145267,
+      0.24312749196356453,
+      0.24903887153638424
+    ],
+    "mean": 0.24796116461581358,
+    "sd": 0.003542068980530825,
+    "z": 39.9946889167236
+  },
+  "infomap": {
+    "n_communities": 17,
+    "modularity": 0.37136057558260754,
+    "codelength": 7.293620616237725,
+    "sizes": [
+      42,
+      41,
+      31,
+      30,
+      25,
+      22,
+      14,
+      12,
+      11,
+      10,
+      9,
+      7,
+      7,
+      6,
+      4,
+      4,
+      2
+    ]
+  },
+  "agreement": {
+    "rate": 0.5956678700361011,
+    "matches": [
+      {
+        "louvain_size": 51,
+        "majority_infomap_module": 2,
+        "majority_count": 21,
+        "purity": 0.4117647058823529
+      },
+      {
+        "louvain_size": 44,
+        "majority_infomap_module": 1,
+        "majority_count": 40,
+        "purity": 0.9090909090909091
+      },
+      {
+        "louvain_size": 40,
+        "majority_infomap_module": 5,
+        "majority_count": 21,
+        "purity": 0.525
+      },
+      {
+        "louvain_size": 39,
+        "majority_infomap_module": 0,
+        "majority_count": 27,
+        "purity": 0.6923076923076923
+      },
+      {
+        "louvain_size": 32,
+        "majority_infomap_module": 3,
+        "majority_count": 30,
+        "purity": 0.9375
+      },
+      {
+        "louvain_size": 31,
+        "majority_infomap_module": 0,
+        "majority_count": 7,
+        "purity": 0.22580645161290322
+      },
+      {
+        "louvain_size": 29,
+        "majority_infomap_module": 4,
+        "majority_count": 15,
+        "purity": 0.5172413793103449
+      },
+      {
+        "louvain_size": 11,
+        "majority_infomap_module": 9,
+        "majority_count": 4,
+        "purity": 0.36363636363636365
+      }
+    ],
+    "top_disagreeing_characters": [
+      "Hulk",
+      "Scarlet_Witch",
+      "Cloak_and_Dagger_(characters)",
+      "Hercules_(Marvel_Comics)",
+      "Black_Widow_(Natasha_Romanova)",
+      "Mockingbird_(Marvel_Comics)",
+      "U.S._Agent",
+      "Nova_(Richard_Rider)",
+      "Deathlok",
+      "Jessica_Jones",
+      "Black_Bolt",
+      "Human_Torch",
+      "Captain_Universe",
+      "War_Machine",
+      "Rom_the_Space_Knight"
+    ]
+  },
+  "nmi_louvain_vs_infomap": 0.618084834081912,
+  "faction_nmi": 1.0,
+  "labeled_nodes": 8,
+  "named_communities": [
+    {
+      "size": 51,
+      "top_members": [
+        {
+          "character": "Black_Panther_(character)",
+          "degree": 31
+        },
+        {
+          "character": "Luke_Cage",
+          "degree": 28
+        },
+        {
+          "character": "Hank_Pym",
+          "degree": 27
+        },
+        {
+          "character": "Moon_Knight",
+          "degree": 27
+        },
+        {
+          "character": "Iron_Fist_(character)",
+          "degree": 26
+        }
+      ],
+      "dominant_faction": "Other",
+      "dominant_faction_share": 1.0
+    },
+    {
+      "size": 44,
+      "top_members": [
+        {
+          "character": "Wolverine_(character)",
+          "degree": 63
+        },
+        {
+          "character": "Phoenix_Force",
+          "degree": 32
+        },
+        {
+          "character": "Betsy_Braddock",
+          "degree": 28
+        },
+        {
+          "character": "Emma_Frost",
+          "degree": 27
+        },
+        {
+          "character": "Storm_(Marvel_Comics)",
+          "degree": 27
+        }
+      ],
+      "dominant_faction": "Other",
+      "dominant_faction_share": 0.8863636363636364
+    },
+    {
+      "size": 40,
+      "top_members": [
+        {
+          "character": "Hercules_(Marvel_Comics)",
+          "degree": 26
+        },
+        {
+          "character": "Adam_Warlock",
+          "degree": 25
+        },
+        {
+          "character": "Quasar_(character)",
+          "degree": 24
+        },
+        {
+          "character": "Nova_(Richard_Rider)",
+          "degree": 21
+        },
+        {
+          "character": "Noh-Varr",
+          "degree": 18
+        }
+      ],
+      "dominant_faction": "Other",
+      "dominant_faction_share": 1.0
+    },
+    {
+      "size": 39,
+      "top_members": [
+        {
+          "character": "Spider-Man",
+          "degree": 106
+        },
+        {
+          "character": "Venom_(character)",
+          "degree": 29
+        },
+        {
+          "character": "Black_Cat_(Marvel_Comics)",
+          "degree": 28
+        },
+        {
+          "character": "Eddie_Brock",
+          "degree": 22
+        },
+        {
+          "character": "Spider-Woman_(Jessica_Drew)",
+          "degree": 22
+        }
+      ],
+      "dominant_faction": "Other",
+      "dominant_faction_share": 0.9230769230769231
+    },
+    {
+      "size": 32,
+      "top_members": [
+        {
+          "character": "Doctor_Strange",
+          "degree": 57
+        },
+        {
+          "character": "Deadpool",
+          "degree": 41
+        },
+        {
+          "character": "Blade_(character)",
+          "degree": 22
+        },
+        {
+          "character": "Ghost_Rider",
+          "degree": 22
+        },
+        {
+          "character": "Man-Thing",
+          "degree": 20
+        }
+      ],
+      "dominant_faction": "Other",
+      "dominant_faction_share": 1.0
+    },
+    {
+      "size": 31,
+      "top_members": [
+        {
+          "character": "Hulk",
+          "degree": 65
+        },
+        {
+          "character": "She-Hulk",
+          "degree": 37
+        },
+        {
+          "character": "Robbie_Baldwin",
+          "degree": 15
+        },
+        {
+          "character": "Solo_(Marvel_Comics)",
+          "degree": 13
+        },
+        {
+          "character": "Brian_Braddock",
+          "degree": 11
+        }
+      ],
+      "dominant_faction": "Other",
+      "dominant_faction_share": 1.0
+    },
+    {
+      "size": 29,
+      "top_members": [
+        {
+          "character": "Scarlet_Witch",
+          "degree": 32
+        },
+        {
+          "character": "Black_Bolt",
+          "degree": 18
+        },
+        {
+          "character": "Human_Torch",
+          "degree": 18
+        },
+        {
+          "character": "Human_Torch_(android)",
+          "degree": 17
+        },
+        {
+          "character": "Quicksilver_(Marvel_Comics)",
+          "degree": 15
+        }
+      ],
+      "dominant_faction": "Other",
+      "dominant_faction_share": 1.0
+    },
+    {
+      "size": 11,
+      "top_members": [
+        {
+          "character": "Cloak_and_Dagger_(characters)",
+          "degree": 28
+        },
+        {
+          "character": "Deathlok",
+          "degree": 20
+        },
+        {
+          "character": "Darkhawk",
+          "degree": 15
+        },
+        {
+          "character": "Chase_Stein",
+          "degree": 6
+        },
+        {
+          "character": "Cammi_(character)",
+          "degree": 4
+        }
+      ],
+      "dominant_faction": "Other",
+      "dominant_faction_share": 1.0
+    }
+  ],
+  "source_sha256": {
+    "week1_edges.tsv": "04f025e767da186f51e9db94677741d3ba9998cad268ac18d7a1d2e5447e69f1",
+    "week1_nodes.tsv": "87e48dd1a0feb456ad16ca94b562abbc2f2de1a7f986107240829a3aed6c7fee"
+  },
+  "versions": {
+    "python": "3.12.11",
+    "networkx": "3.5",
+    "matplotlib": "3.9.4",
+    "scikit-learn": "1.7.1",
+    "infomap": "2.15.1"
+  },
+  "scope": "Original undirected giant component (277 nodes, 1421 links); Louvain (networkx) and Infomap community detection compared by NMI and by a degree-preserving null on modularity."
+}
