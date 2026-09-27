@@ -13,6 +13,7 @@ const LOUVAIN_NAMES = ["Founding Avengers & street heroes", "X-Men", "Cosmic Ave
   "Supernatural / Midnight Sons", "Hulk family", "Inhumans & Fantastic Four", "Young cosmic heroes"];
 
 let graph;
+let nodesById;
 let mode = "louvain"; // or "infomap"
 let selectedCommunity = "all";
 let focusId = null;
@@ -52,25 +53,31 @@ function populateCommunitySelect() {
   communitySelect.value = "all";
 }
 
+let projectCache = null;
+
 function computeProjection() {
+  if (projectCache) return projectCache;
   const xs = graph.nodes.map((node) => node.x);
   const ys = graph.nodes.map((node) => node.y);
   const minX = Math.min(...xs), maxX = Math.max(...xs);
   const minY = Math.min(...ys), maxY = Math.max(...ys);
-  const width = 1000, height = 600, pad = 45;
+  const width = 1000, height = 680, pad = 55;
   const scale = Math.min((width - 2 * pad) / (maxX - minX || 1), (height - 2 * pad) / (maxY - minY || 1));
   const offsetX = (width - (maxX - minX) * scale) / 2;
   const offsetY = (height - (maxY - minY) * scale) / 2;
-  return (node) => ({
+  const positions = new Map(graph.nodes.map((node) => [String(node.id), {
     x: offsetX + (node.x - minX) * scale,
     y: offsetY + (node.y - minY) * scale,
-  });
+  }]));
+  projectCache = positions;
+  return positions;
 }
 
 function renderLegend() {
   legendStrip.replaceChildren();
   const count = communityCount(mode);
-  for (let index = 0; index < count; index++) {
+  const shown = Math.min(count, mode === "louvain" ? count : 10);
+  for (let index = 0; index < shown; index++) {
     const span = document.createElement("span");
     const swatch = document.createElement("i");
     swatch.style.background = PALETTE[index % PALETTE.length];
@@ -78,22 +85,49 @@ function renderLegend() {
     span.append(mode === "louvain" ? (LOUVAIN_NAMES[index] ?? `Community ${index}`) : `Module ${index}`);
     legendStrip.appendChild(span);
   }
+  if (shown < count) {
+    const rest = document.createElement("span");
+    rest.textContent = `+ ${count - shown} smaller modules (isolate one from the dropdown)`;
+    legendStrip.appendChild(rest);
+  }
+}
+
+function isMuted(node) {
+  return selectedCommunity !== "all" && String(node[mode]) !== selectedCommunity;
+}
+
+function labelSet() {
+  const pool = selectedCommunity === "all"
+    ? graph.nodes
+    : graph.nodes.filter((node) => String(node[mode]) === selectedCommunity);
+  const count = selectedCommunity === "all" ? 7 : 5;
+  const labeled = new Set([...pool].sort((a, b) => b.degree - a.degree).slice(0, count).map((node) => node.id));
+  if (focusId !== null) labeled.add(focusId);
+  return labeled;
 }
 
 function draw() {
   svg.replaceChildren();
-  const project = computeProjection();
-  const positions = new Map(graph.nodes.map((node) => [String(node.id), project(node)]));
+  const positions = computeProjection();
+  const isolating = selectedCommunity !== "all";
   for (const edge of graph.edges) {
     const source = positions.get(String(edge.source));
     const target = positions.get(String(edge.target));
     if (!source || !target) continue;
-    addSvg("line", { x1: source.x, y1: source.y, x2: target.x, y2: target.y, class: "graph-edge" });
+    if (isolating) {
+      const sourceNode = nodesById.get(String(edge.source));
+      const targetNode = nodesById.get(String(edge.target));
+      if (isMuted(sourceNode) && isMuted(targetNode)) continue;
+      const bothInside = !isMuted(sourceNode) && !isMuted(targetNode);
+      addSvg("line", { x1: source.x, y1: source.y, x2: target.x, y2: target.y, class: bothInside ? "graph-edge" : "graph-edge dim" });
+    } else {
+      addSvg("line", { x1: source.x, y1: source.y, x2: target.x, y2: target.y, class: "graph-edge" });
+    }
   }
   for (const node of graph.nodes) {
     const position = positions.get(String(node.id));
     const communityValue = node[mode];
-    const muted = selectedCommunity !== "all" && String(communityValue) !== selectedCommunity;
+    const muted = isMuted(node);
     const isFocus = focusId !== null && String(node.id) === String(focusId);
     let className = "graph-node";
     if (muted) className += " muted";
@@ -112,11 +146,24 @@ function draw() {
       }
     });
   }
-  const topByDegree = [...graph.nodes].sort((a, b) => b.degree - a.degree).slice(0, 10);
-  for (const node of topByDegree) {
+  const labeled = labelSet();
+  for (const node of graph.nodes) {
+    if (!labeled.has(node.id)) continue;
     const position = positions.get(String(node.id));
     addSvg("text", { x: position.x, y: position.y - (7 + Math.sqrt(node.degree)), class: "graph-label" }).textContent = displayName(node.character);
   }
+}
+
+function defaultExplanation() {
+  return `${(graph.agreement_rate * 100).toFixed(1)}% of characters land in the same relative group under both methods (NMI = ${graph.nmi_louvain_vs_infomap.toFixed(2)}). Click a node, or isolate a community below, to explore.`;
+}
+
+function communityExplanation(index) {
+  const members = graph.nodes.filter((node) => String(node[mode]) === String(index));
+  const top = [...members].sort((a, b) => b.degree - a.degree).slice(0, 5).map((node) => displayName(node.character));
+  const agreeCount = members.filter((node) => node.agree).length;
+  const name = mode === "louvain" ? (LOUVAIN_NAMES[index] ?? `Community ${index}`) : `Infomap module ${index}`;
+  return `"${name}": ${members.length} characters, led by ${top.join(", ")}. ${agreeCount} of ${members.length} (${((agreeCount / members.length) * 100).toFixed(0)}%) land with the same neighbors under both methods.`;
 }
 
 function selectNode(node) {
@@ -131,6 +178,8 @@ function setMode(newMode) {
   for (const button of modeButtons) button.classList.toggle("active", button.dataset.mode === mode);
   populateCommunitySelect();
   renderLegend();
+  focusId = null;
+  nodeExplanation.textContent = defaultExplanation();
   draw();
 }
 
@@ -139,6 +188,7 @@ async function start() {
     const response = await fetch(graphUrl);
     if (!response.ok) throw new Error("Graph data unavailable");
     graph = await response.json();
+    nodesById = new Map(graph.nodes.map((node) => [String(node.id), node]));
     populateCommunitySelect();
     renderLegend();
     for (const button of modeButtons) {
@@ -146,10 +196,11 @@ async function start() {
     }
     communitySelect.addEventListener("change", () => {
       selectedCommunity = communitySelect.value;
+      focusId = null;
+      nodeExplanation.textContent = selectedCommunity === "all" ? defaultExplanation() : communityExplanation(selectedCommunity);
       draw();
     });
     setMode("louvain");
-    nodeExplanation.textContent = `${(graph.agreement_rate * 100).toFixed(1)}% of characters land in the same relative group under both methods (NMI = ${graph.nmi_louvain_vs_infomap.toFixed(2)}). Click a node, or choose a community, to explore.`;
   } catch (error) {
     nodeExplanation.textContent = "The explorer could not load its graph data. The analysis and article remain available below.";
     console.warn(error.message);

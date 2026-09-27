@@ -1,5 +1,5 @@
 .week4-hero { background: var(--lime); }
-.week4-hero h1 em { color: var(--cream); text-decoration-color: var(--ink); background: var(--ink); padding: 0 6px; }
+.week4-hero h1 em { color: var(--coral); }
 .story-section { display: grid; grid-template-columns: 1fr 1.8fr; gap: 55px; padding: 75px 5vw; border-bottom: 1px solid var(--line); }
 .story-section h2, .results-section h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; }
 .prose, .result-copy { font-size: 17px; line-height: 1.7; }
@@ -33,7 +33,7 @@ thead th { font-size: 13px; }
 .explorer-heading h2 { margin: 0; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; }
 .explorer-heading h2 span { color: var(--coral); }
 .explorer-heading p:last-child { margin: 0; color: rgba(246, 241, 231, .72); line-height: 1.6; }
-.explorer-controls { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px 24px; max-width: 900px; margin: 55px 0 0 auto; align-items: end; }
+.explorer-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; max-width: 900px; margin: 55px 0 0 auto; align-items: end; }
 .explorer-controls label { display: block; margin-bottom: 9px; font: 11px "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
 .explorer-controls select { width: 100%; min-width: 0; padding: 12px; border: 1px solid rgba(246, 241, 231, .35); border-radius: 0; background: transparent; color: var(--cream); font: 15px "Space Grotesk", sans-serif; }
 .explorer-controls option { color: var(--ink); }
@@ -46,13 +46,14 @@ thead th { font-size: 13px; }
 .explorer-stats strong { display: block; margin-top: 7px; color: var(--lime); font-size: 22px; }
 #node-explanation { max-width: 900px; margin: 20px auto 0; color: rgba(246, 241, 231, .72); font-size: 14px; line-height: 1.55; }
 .graph-frame { max-width: 1100px; margin: 35px auto 0; border: 1px solid rgba(246, 241, 231, .25); background: rgba(140, 202, 209, .08); }
-#community-graph { display: block; width: 100%; height: auto; min-height: 460px; }
-.graph-edge { stroke: rgba(246, 241, 231, .12); stroke-width: 1; }
+#community-graph { display: block; width: 100%; height: auto; min-height: 520px; }
+.graph-edge { stroke: rgba(246, 241, 231, .07); stroke-width: 1; }
+.graph-edge.dim { stroke: rgba(246, 241, 231, .02); }
 .graph-node { stroke: var(--cream); stroke-width: 1; cursor: pointer; transition: opacity .2s; }
-.graph-node.muted { opacity: .12; }
+.graph-node.muted { opacity: .08; }
 .graph-node.focus { stroke: var(--coral); stroke-width: 3; }
 .graph-node.disagree-ring { stroke: var(--coral); stroke-width: 2.5; }
-.graph-label { fill: var(--cream); font: 12px "DM Mono", monospace; pointer-events: none; text-anchor: middle; }
+.graph-label { fill: var(--cream); font: 12px "DM Mono", monospace; pointer-events: none; text-anchor: middle; paint-order: stroke; stroke: var(--ink); stroke-width: 3px; }
 .legend-strip { display: flex; flex-wrap: wrap; gap: 10px 18px; max-width: 1100px; margin: 18px auto 0; font: 11px "DM Mono", monospace; text-transform: uppercase; }
 .legend-strip span { display: inline-flex; align-items: center; gap: 7px; }
 .legend-strip i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; }
